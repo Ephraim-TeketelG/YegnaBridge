@@ -1,385 +1,476 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YegnaBridge | Not Charity. Family.</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* Portfolio Variables matched to YegnaBridge Colors */
         :root {
-            --bg-dark: #040d1a; /* Extremely deep, rich navy/black */
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --line-color: rgba(255, 255, 255, 0.15);
-            --accent: #60a5fa;
-            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #0B192C;
+            --text-secondary: #64748b;
+            --accent: #3B82F6;
+            --border-color: #e2e8f0;
+            --nav-glass: rgba(255, 255, 255, 0.85);
             --font-ui: 'Inter', sans-serif;
-            --font-display: 'Playfair Display', serif;
+            --font-story: 'Lora', serif;
         }
 
-        /* Reset & Global */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Dark Mode: YegnaBridge Navy */
+        [data-theme="dark"] {
+            --bg-primary: #0B192C;
+            --bg-secondary: #12233a;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent: #60a5fa;
+            --border-color: #1e3a5f;
+            --nav-glass: rgba(11, 25, 44, 0.85);
+        }
+
+        /* Global Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: var(--bg-dark); color: var(--text-light);
-            font-family: var(--font-ui); line-height: 1.6;
-            -webkit-font-smoothing: antialiased; overflow-x: hidden;
+            background-color: var(--bg-primary); color: var(--text-primary);
+            font-family: var(--font-ui); line-height: 1.8;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
         }
 
-        a { text-decoration: none; color: inherit; }
+        a { color: var(--text-primary); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--accent); }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); }
-        ::selection { background: var(--text-light); color: var(--bg-dark); }
+        /* Custom Scrollbar & Progress */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+        ::selection { background: var(--accent); color: #ffffff; }
 
-        /* Smooth Reveal System */
-        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        #progress-bar {
+            position: fixed; top: 0; left: 0; width: 0%; height: 3px;
+            background: var(--accent); z-index: 9999;
+            transition: width 0.1s ease-out; pointer-events: none;
+        }
 
-        /* Structural Grid Constraints */
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 4%; }
-        .divider { width: 100%; height: 1px; background: var(--line-color); }
+        /* iOS Shrink Effect */
+        #main-wrapper {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.5s ease;
+            background-color: var(--bg-primary); min-height: 100vh; width: 100%;
+            position: relative; z-index: 1; 
+        }
+        .ios-shrink {
+            transform: scale(0.93) translateY(2vh); border-radius: 24px;
+            overflow: hidden; pointer-events: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
 
-        /* Ultra-Minimal Navigation */
+        /* Container & Fade In */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; animation: globalFadeIn 1.2s ease-out forwards; }
+        @keyframes globalFadeIn { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        /* Magnetic Elements Base */
+        .magnetic { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-block; }
+        .magnetic:hover { transition: transform 0.05s linear; }
+
+        /* Navigation */
         nav {
-            padding: 30px 4%; display: flex; justify-content: space-between; align-items: center;
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            background: linear-gradient(to bottom, rgba(4,13,26,0.9), transparent);
-            backdrop-filter: blur(5px);
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: var(--nav-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color); z-index: 1000; padding: 18px 0; transition: background 0.5s ease;
         }
-        .logo-area { display: flex; align-items: center; gap: 15px; font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; letter-spacing: -0.5px; }
-        .logo-area img { height: 35px; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 5%; }
         
-        .nav-links { display: flex; gap: 40px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
-        .nav-links a { position: relative; padding-bottom: 5px; transition: color 0.3s ease; }
-        .nav-links a:hover { color: var(--accent); }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 1px;
-            background: var(--accent); transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* Cinematic Hero Section */
-        .hero { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; 
-            padding-top: 80px; position: relative;
-        }
-        .hero-tag { font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; color: var(--text-muted); margin-bottom: 20px; display: block; }
-        .hero h1 {
-            font-family: var(--font-display); font-size: clamp(4rem, 10vw, 8rem);
-            line-height: 0.95; font-weight: 400; letter-spacing: -2px; margin-bottom: 40px;
-            max-width: 1200px;
-        }
-        .hero h1 i { font-style: italic; color: var(--accent); }
-        .hero p {
-            font-size: 1.2rem; font-weight: 300; max-width: 500px; color: var(--text-muted);
-        }
-
-        /* Architectural Stats Section */
-        .stats-wrap { border-top: 1px solid var(--line-color); border-bottom: 1px solid var(--line-color); display: flex; flex-wrap: wrap; }
-        .stat-box {
-            flex: 1; min-width: 250px; padding: 60px 4%;
-            border-right: 1px solid var(--line-color);
-        }
-        .stat-box:last-child { border-right: none; }
-        .stat-num { font-family: var(--font-display); font-size: 4rem; font-weight: 400; margin-bottom: 10px; line-height: 1; }
-        .stat-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
-
-        /* Editorial About Section */
-        .about-section { padding: 150px 0; }
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
-        @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 50px; } }
-        .about-title { font-family: var(--font-display); font-size: 3rem; line-height: 1.1; font-weight: 400; }
-        .about-text { font-size: 1.25rem; font-weight: 300; color: var(--text-muted); line-height: 1.8; }
-        .about-text p { margin-bottom: 30px; }
-        .about-text strong { color: var(--text-light); font-weight: 500; }
-
-        /* High-End Gallery Grid */
-        .gallery-section { padding: 100px 0 150px; }
-        .section-header { font-family: var(--font-display); font-size: 4rem; margin-bottom: 60px; font-weight: 400; letter-spacing: -1px; }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.5px; color: var(--text-primary); }
+        .logo-img { height: 35px; width: auto; object-fit: contain; }
+        .logo-area span { color: var(--accent); }
         
-        .premium-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2px; background: var(--line-color); border: 1px solid var(--line-color);
+        .theme-btn {
+            background: transparent; border: 1px solid var(--border-color); color: var(--text-primary);
+            padding: 8px 20px; border-radius: 50px; cursor: pointer; font-family: var(--font-ui); font-size: 0.9rem;
         }
-        .grid-item {
-            background: var(--bg-dark); position: relative; overflow: hidden; cursor: pointer;
-            aspect-ratio: 4/5; display: flex; flex-direction: column;
-        }
-        
-        /* Grayscale to Color Image Effect */
-        .grid-image {
-            width: 100%; height: 75%; overflow: hidden; position: relative;
-        }
-        .grid-image img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%) contrast(1.1); opacity: 0.7;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .grid-item:hover .grid-image img {
-            filter: grayscale(0%) contrast(1); opacity: 1; transform: scale(1.05);
-        }
-        
-        /* Minimal Typography Box */
-        .grid-info {
-            padding: 30px; height: 25%; display: flex; flex-direction: column; justify-content: center;
-            border-top: 1px solid var(--line-color); transition: background 0.4s ease;
-        }
-        .grid-item:hover .grid-info { background: rgba(255,255,255,0.03); }
-        .grid-title { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 5px; font-weight: 400; }
-        .grid-meta { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+        .theme-btn:hover { background: var(--text-primary); color: var(--bg-primary); }
 
-        /* Elegantly Listed Team Section */
-        .team-section { padding: 100px 0 150px; border-top: 1px solid var(--line-color); }
-        .team-wrapper { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; }
-        @media (max-width: 900px) { .team-wrapper { grid-template-columns: 1fr; } }
-        
-        .team-list { list-style: none; margin-bottom: 60px; }
-        .team-list-header { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 30px; }
-        .team-row {
-            display: flex; justify-content: space-between; align-items: baseline;
-            padding: 25px 0; border-bottom: 1px solid var(--line-color); transition: padding 0.3s ease;
+        /* Hero Section */
+        .hero { padding: 200px 0 120px; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; }
+        .badge { display: inline-block; padding: 6px 16px; border: 1px solid var(--border-color); border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 25px; width: fit-content; }
+        .hero h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 700; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--text-primary); }
+        .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 750px; margin-bottom: 20px; }
+        .highlight { color: var(--text-primary); font-weight: 600; }
+
+        /* Impact Dashboard (Portfolio Info Block Style) */
+        .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+        .stat-box { border-left: 2px solid var(--border-color); padding-left: 20px; }
+        .stat-num { font-size: 3rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 5px; }
+        .stat-label { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+
+        /* Section Formatting */
+        section { padding: 100px 0; border-top: 1px solid var(--border-color); }
+        .section-header { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-secondary); margin-bottom: 40px; font-weight: 600; }
+
+        /* Editorial Story Section */
+        .story-content { font-family: var(--font-story); font-size: 1.25rem; line-height: 2; max-width: 800px; margin: 0 auto; color: var(--text-primary); }
+        .story-content p { margin-bottom: 30px; }
+        .story-content blockquote { border-left: 4px solid var(--text-primary); padding-left: 20px; font-style: italic; margin: 40px 0; color: var(--text-secondary); font-size: 1.4rem; }
+
+        /* Grid Layouts */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+
+        /* Premium Interactive Cards (From Portfolio!) */
+        .card {
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            padding: 40px; border-radius: 16px; cursor: pointer;
+            position: relative; overflow: hidden; display: block;
         }
-        .team-row:hover { padding-left: 15px; padding-right: 15px; background: rgba(255,255,255,0.02); }
-        .team-name { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; }
-        .team-role { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        .card::before {
+            content: "Explore ↗"; position: absolute; top: 30px; right: 30px;
+            font-size: 0.9rem; opacity: 0; transition: opacity 0.3s ease; color: var(--accent); font-weight: 600;
+        }
+        .card:hover { border-color: var(--text-primary); }
+        .card:hover::before { opacity: 1; }
+        
+        .card-img-box { height: 200px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 25px; overflow: hidden; }
+        .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .card h3 { font-size: 1.6rem; margin-bottom: 10px; font-weight: 600; letter-spacing: -0.5px; }
+        .card p { color: var(--text-secondary); font-size: 1.05rem; margin: 0; }
+        .blog-date { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 10px; display: block; font-weight: 600;}
 
-        /* Footer */
-        footer { padding: 100px 0; border-top: 1px solid var(--line-color); }
-        .footer-huge { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 50px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .footer-col h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 20px; }
-        .footer-col a { display: block; font-size: 1.1rem; margin-bottom: 15px; transition: color 0.3s ease; }
-        .footer-col a:hover { color: var(--accent); }
+        /* Information Lists (For Teams) */
+        .info-block h3 { font-size: 1.4rem; margin-bottom: 20px; font-weight: 600; color: var(--text-primary); }
+        .info-list { list-style: none; color: var(--text-secondary); }
+        .info-list li { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; }
+        .info-list li:last-child { border-bottom: none; }
+        .info-list strong { color: var(--text-primary); font-size: 1.1rem; }
+        .info-list span { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Minimal Drawer */
+        /* Support Box (Adapted from Portfolio Newsletter) */
+        .newsletter-box {
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            padding: 60px 40px; border-radius: 16px; text-align: center;
+            max-width: 800px; margin: 0 auto; transition: all 0.3s ease;
+        }
+        .newsletter-box:hover { border-color: var(--text-primary); }
+        .newsletter-box h2 { font-size: 2.2rem; margin-bottom: 15px; letter-spacing: -1px; }
+        .newsletter-box p { color: var(--text-secondary); margin-bottom: 30px; }
+        .btn-solid {
+            padding: 15px 35px; border-radius: 50px; border: none; display: inline-block;
+            background: var(--text-primary); color: var(--bg-primary);
+            font-family: var(--font-ui); font-weight: 600; font-size: 1rem; cursor: pointer; 
+        }
+        .btn-solid:hover { background: var(--accent); color: #fff; }
+
+        /* Sliding Drawer */
         .drawer-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(4,13,26,0.8); backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
             z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         .drawer-overlay.active { opacity: 1; pointer-events: auto; }
         
         .drawer {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 600px; height: 100vh;
-            background: var(--bg-dark); border-left: 1px solid var(--line-color);
-            z-index: 2001; transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow-y: auto; padding: 80px 5%;
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 650px; height: 100vh;
+            background: var(--bg-primary); z-index: 2001; transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto; padding: 60px 5%; box-shadow: -10px 0 40px rgba(0,0,0,0.1);
         }
         .drawer.active { right: 0; }
         
         .close-drawer {
             position: absolute; top: 30px; right: 40px; background: none; border: none;
-            font-size: 2rem; color: var(--text-light); cursor: pointer; font-weight: 300;
+            font-size: 2rem; color: var(--text-secondary); cursor: pointer; transition: color 0.3s ease;
         }
-        .drawer h2 { font-family: var(--font-display); font-size: 3rem; line-height: 1.1; margin-bottom: 30px; font-weight: 400; }
-        .drawer p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 25px; font-weight: 300; }
+        .close-drawer:hover { color: var(--text-primary); }
+        .drawer h2 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 20px; font-weight: 700; line-height: 1.2; }
+        
+        /* Drawer Reader Mode */
+        .reader-mode p { font-family: var(--font-story); font-size: 1.2rem; line-height: 1.9; color: var(--text-primary); margin-bottom: 25px; }
+
+        /* Footer & Socials (From Portfolio) */
+        footer { padding: 80px 0 120px; border-top: 1px solid var(--border-color); margin-top: 50px; }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
+        
+        .social-link {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px;
+            background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .social-link:hover { border-color: var(--text-primary); background: transparent; }
+        .social-icon { font-size: 2rem; margin-bottom: 15px; color: var(--text-primary); transition: color 0.3s ease; }
+        .social-link:hover .social-icon { color: var(--accent); }
+        .social-link span.label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .social-link span.handle { font-size: 1.05rem; font-weight: 500; color: var(--text-primary); word-break: break-word; }
+
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo-area">
-            <img src="logo.png" alt="" onerror="this.style.display='none'">
-            YegnaBridge.
-        </div>
-        <div class="nav-links">
-            <a href="#about">Story</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#team">Team</a>
-        </div>
-    </nav>
+    <div id="progress-bar"></div>
 
-    <div class="container">
-        <header class="hero fade-up">
-            <span class="hero-tag">Est. 2025 • Ethiopia</span>
-            <h1>We do not do charity.<br>We build <i>family.</i></h1>
-            <p>A youth-led organization crossing the bridge of pain through listening, dignity, and sustainable empowerment.</p>
-        </header>
-    </div>
-
-    <section class="stats-wrap fade-up">
-        <div class="stat-box">
-            <div class="stat-num">02</div>
-            <div class="stat-label">Active Branches</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-num">50+</div>
-            <div class="stat-label">Youth Leaders</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-num">15+</div>
-            <div class="stat-label">Families Sustained</div>
-        </div>
-    </section>
-
-    <section id="about" class="about-section fade-up">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-title">Leadership begins<br>with listening.</div>
-                <div class="about-text">
-                    <p>The word <strong>Yegna</strong> means <em>ours</em> in Amharic, and <strong>Bridge</strong> signifies crossing challenges together. We believe the biggest gap in supporting vulnerable communities is not just physical supplies, but the profound lack of someone willing to sit down and listen.</p>
-                    <p>When we assist a mother or a child in Shinshicho or Addis Ababa, our goal is never to hand out temporary items for praise. Our mandate is to restore dignity and walk side-by-side through life.</p>
+    <div id="main-wrapper">
+        <nav>
+            <div class="nav-inner">
+                <div class="logo-area">
+                    <img src="logo.png" alt="" class="logo-img" onerror="this.style.display='none'">
+                    Yegna<span>Bridge</span>
                 </div>
+                <button class="theme-btn magnetic" id="theme-toggle">Dark Mode</button>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <section id="gallery" class="gallery-section">
-        <div class="container fade-up">
-            <h2 class="section-header">The Archives</h2>
-            
-            <div class="premium-grid">
+        <div class="container">
+            <header class="hero">
+                <div class="badge">Not Charity. Family.</div>
+                <h1>Let us change lives together.</h1>
+                <p>
+                    Founded in 2025, YegnaBridge connects dedicated youth with families and street children in <span class="highlight">Shinshicho and Addis Ababa</span>, fostering genuine care, dignity, and listening.
+                </p>
                 
-                <div class="grid-item" onclick="openDrawer('drawer-mother')">
-                    <div class="grid-image">
-                        <img src="Motherbusinness1.jpg" onerror="this.style.opacity='0'" alt="Shinshicho Mother">
+                <div class="impact-grid">
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="2">0</div>
+                        <div class="stat-label">Active Branches</div>
                     </div>
-                    <div class="grid-info">
-                        <div class="grid-title">Empowering a Mother</div>
-                        <div class="grid-meta">Shinshicho Branch</div>
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="50">0</div>
+                        <div class="stat-label">Youth Leaders</div>
                     </div>
-                </div>
-
-                <div class="grid-item" onclick="openDrawer('drawer-easter')">
-                    <div class="grid-image">
-                        <img src="easteraddis1.jpg" onerror="this.style.opacity='0'" alt="Easter Addis">
-                    </div>
-                    <div class="grid-info">
-                        <div class="grid-title">Easter Meal Sharing</div>
-                        <div class="grid-meta">Addis Ababa Branch</div>
+                    <div class="stat-box">
+                        <div class="stat-num" data-target="15">0</div>
+                        <div class="stat-label">Families Supported</div>
                     </div>
                 </div>
+            </header>
 
-                <div class="grid-item" onclick="openDrawer('drawer-mealshare')">
-                    <div class="grid-image">
-                        <img src="mealshare1.jpg" onerror="this.style.opacity='0'" alt="Meskerem Meal Share">
+            <section id="story">
+                <div class="section-header">01. Our Philosophy</div>
+                <div class="story-content">
+                    <p>The word Yegna means ours in Amharic, and Bridge signifies crossing challenges together. We believe the biggest gap in supporting vulnerable families is not just physical supplies, but the lack of someone willing to sit down and listen to real stories.</p>
+                    
+                    <blockquote>
+                        "Leadership begins with listening. We facilitate someone else's growth based on their reality, not our assumptions."
+                    </blockquote>
+
+                    <p>When we assist a mother or a child, our goal is never to hand out temporary items for praise. Our aim is to build family, restore dignity, and walk side by side through life.</p>
+                </div>
+            </section>
+
+            <section id="gallery">
+                <div class="section-header">02. Outreach Gallery</div>
+                <div class="grid">
+                    
+                    <div class="card magnetic" onclick="openDrawer('drawer-mother')">
+                        <div class="card-img-box">
+                            <img src="Motherbusinness1.jpg" onerror="this.style.opacity='0'" alt="Shinshicho Mother">
+                        </div>
+                        <span class="blog-date">Shinshicho Branch</span>
+                        <h3>Empowering a Mother</h3>
+                        <p>Providing a market shelter and capital to help a mother achieve financial independence.</p>
                     </div>
-                    <div class="grid-info">
-                        <div class="grid-title">Meskerem 1 Outreach</div>
-                        <div class="grid-meta">Community Initiative</div>
+
+                    <div class="card magnetic" onclick="openDrawer('drawer-easter')">
+                        <div class="card-img-box">
+                            <img src="easteraddis1.jpg" onerror="this.style.opacity='0'" alt="Easter Addis">
+                        </div>
+                        <span class="blog-date">Addis Ababa Branch</span>
+                        <h3>Easter Meal Sharing</h3>
+                        <p>Celebrating the launch of our branch through shared meals, culture, and family.</p>
+                    </div>
+
+                    <div class="card magnetic" onclick="openDrawer('drawer-mealshare')">
+                        <div class="card-img-box">
+                            <img src="mealshare1.jpg" onerror="this.style.opacity='0'" alt="Meskerem Meal Share">
+                        </div>
+                        <span class="blog-date">Community Initiative</span>
+                        <h3>Meskerem 1 Meal Share</h3>
+                        <p>A massive community program aimed at spreading dignity and love through shared food.</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="team">
+                <div class="section-header">03. The Dedicated Team</div>
+                <div class="grid">
+                    <div class="info-block">
+                        <h3>Addis Ababa Branch</h3>
+                        <ul class="info-list">
+                            <li><div><strong>Ephraim Teketel</strong><br><span>Founder & Executive Director</span></div></li>
+                            <li><div><strong>Saron Mulugeta</strong><br><span>General Deputy Director</span></div></li>
+                            <li><div><strong>Soliyana Wanegnaw</strong><br><span>Addis Ababa President</span></div></li>
+                            <li><div><strong>Yeabsira Abebaw</strong><br><span>Vice President</span></div></li>
+                            <li><div><strong>Abigail Adinew</strong><br><span>Volunteers Lead</span></div></li>
+                            <li><div><strong>Maedot Desta</strong><br><span>Project Lead</span></div></li>
+                            <li><div><strong>Soliyana Taye</strong><br><span>Project Lead</span></div></li>
+                            <li><div><strong>Eldana, Kewser, Yanet, Hulud, Mikyas, Liya</strong><br><span>Active Members</span></div></li>
+                        </ul>
+                    </div>
+                    <div class="info-block">
+                        <h3>Shinshicho Branch</h3>
+                        <ul class="info-list">
+                            <li><div><strong>Endalkachew Tefera</strong><br><span>Branch President</span></div></li>
+                            <li><div><strong>Abel Samuel</strong><br><span>Branch Vice President</span></div></li>
+                            <li><div><strong>Kalkidan Tadewos</strong><br><span>Financial Lead</span></div></li>
+                            <li><div><strong>Lidya Alemayehu</strong><br><span>Project Lead</span></div></li>
+                            <li><div><strong>Yosef Desta</strong><br><span>Project Lead</span></div></li>
+                            <li><div><strong>Tebarek Tadele</strong><br><span>Active Member</span></div></li>
+                        </ul>
                     </div>
                 </div>
+            </section>
 
-            </div>
+            <section id="support">
+                <div class="newsletter-box">
+                    <h2>Join our family.</h2>
+                    <p>We coordinate all contributions, volunteer opportunities, and partnerships directly on Telegram. Reach out to the support team to change a life today.</p>
+                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-solid magnetic">Message @yegnabridgesupport</a>
+                </div>
+            </section>
+
+            <footer>
+                <div class="section-header">04. Official Channels</div>
+                <div class="social-grid">
+                    <a href="mailto:yegnabridge.org@gmail.com" class="social-link magnetic">
+                        <i class="fa-regular fa-envelope social-icon"></i>
+                        <span class="label">Email</span>
+                        <span class="handle">yegnabridge.org@gmail.com</span>
+                    </a>
+                    <a href="https://t.me/YegnaBridge" target="_blank" class="social-link magnetic">
+                        <i class="fa-brands fa-telegram social-icon"></i>
+                        <span class="label">Telegram</span>
+                        <span class="handle">@YegnaBridge</span>
+                    </a>
+                    <a href="https://instagram.com/yegna_bridge" target="_blank" class="social-link magnetic">
+                        <i class="fa-brands fa-instagram social-icon"></i>
+                        <span class="label">Instagram</span>
+                        <span class="handle">@yegna_bridge</span>
+                    </a>
+                    <a href="https://www.linkedin.com/company/yegnabridge/" target="_blank" class="social-link magnetic">
+                        <i class="fa-brands fa-linkedin social-icon"></i>
+                        <span class="label">LinkedIn</span>
+                        <span class="handle">YegnaBridge</span>
+                    </a>
+                </div>
+            </footer>
         </div>
-    </section>
-
-    <section id="team" class="team-section fade-up">
-        <div class="container">
-            <div class="team-wrapper">
-                <div>
-                    <h2 class="section-header" style="font-size: 3rem; margin-bottom: 20px;">The<br>People.</h2>
-                    <p style="color: var(--text-muted); max-width: 300px; font-weight: 300;">The dedicated youth driving the mission across Ethiopia.</p>
-                </div>
-                
-                <div>
-                    <div class="team-list-header">Addis Ababa Leadership</div>
-                    <ul class="team-list">
-                        <li class="team-row"><span class="team-name">Ephraim Teketel</span> <span class="team-role">Executive Director</span></li>
-                        <li class="team-row"><span class="team-name">Saron Mulugeta</span> <span class="team-role">Deputy Director</span></li>
-                        <li class="team-row"><span class="team-name">Soliyana Wanegnaw</span> <span class="team-role">Branch President</span></li>
-                        <li class="team-row"><span class="team-name">Yeabsira Abebaw</span> <span class="team-role">Vice President</span></li>
-                        <li class="team-row"><span class="team-name">Abigail Adinew</span> <span class="team-role">Volunteers Lead</span></li>
-                        <li class="team-row"><span class="team-name">Maedot Desta</span> <span class="team-role">Project Lead</span></li>
-                        <li class="team-row"><span class="team-name">Soliyana Taye</span> <span class="team-role">Project Lead</span></li>
-                    </ul>
-
-                    <div class="team-list-header">Shinshicho Leadership</div>
-                    <ul class="team-list">
-                        <li class="team-row"><span class="team-name">Endalkachew Tefera</span> <span class="team-role">Branch President</span></li>
-                        <li class="team-row"><span class="team-name">Abel Samuel</span> <span class="team-role">Vice President</span></li>
-                        <li class="team-row"><span class="team-name">Kalkidan Tadewos</span> <span class="team-role">Financial Lead</span></li>
-                        <li class="team-row"><span class="team-role">Lidya Alemayehu & Yosef Desta</span> <span class="team-role">Project Leads</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-huge">Join the mission.</div>
-            <div class="divider" style="margin-bottom: 60px;"></div>
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Direct Contact</h4>
-                    <a href="https://t.me/yegnabridgesupport" target="_blank">Telegram Support ↗</a>
-                    <a href="mailto:yegnabridge.org@gmail.com">yegnabridge.org@gmail.com ↗</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Social Media</h4>
-                    <a href="https://t.me/YegnaBridge" target="_blank">Telegram</a>
-                    <a href="https://instagram.com/yegna_bridge" target="_blank">Instagram</a>
-                    <a href="https://www.linkedin.com/company/yegnabridge/" target="_blank">LinkedIn</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Organization</h4>
-                    <p style="color: var(--text-muted); font-weight: 300; font-size: 0.9rem;">
-                        © 2026 YegnaBridge.<br>Operating in Addis Ababa & Shinshicho, Ethiopia.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
-
-    <div class="drawer" id="drawer-mother">
-        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-        <div class="hero-tag" style="color: var(--accent);">Shinshicho Branch</div>
+    </div> <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+    
+    <div class="drawer reader-mode" id="drawer-mother">
+        <button class="close-drawer magnetic" onclick="closeAllDrawers()">×</button>
+        <div class="section-header">SHINSHICHO BRANCH</div>
         <h2>Empowering a Mother</h2>
         <p>We met a mother who was struggling to provide for her daughter after her husband was killed over a land dispute. She did not want permanent charity; she wanted to work.</p>
         <p>With the support of our donors, we raised approximately 10,000 ETB to purchase a heavy-duty plastic market shelter, potatoes, peas, salt, and coffee. She has now successfully retailed her stock twice and is standing on her own feet.</p>
     </div>
 
-    <div class="drawer" id="drawer-easter">
-        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-        <div class="hero-tag" style="color: var(--accent);">Addis Ababa Branch</div>
+    <div class="drawer reader-mode" id="drawer-easter">
+        <button class="close-drawer magnetic" onclick="closeAllDrawers()">×</button>
+        <div class="section-header">ADDIS ABABA BRANCH</div>
         <h2>Easter Meal Sharing</h2>
         <p>We celebrated the launch of our Addis Ababa branch by organizing a meal sharing program during the Easter season. We reached out to families and individuals, sharing not just food and clothing, but culture, warmth, and belonging.</p>
         <p>It was a day filled with Ethiopian traditions, proving that true support nourishes both the body and the soul.</p>
     </div>
 
-    <div class="drawer" id="drawer-mealshare">
-        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-        <div class="hero-tag" style="color: var(--accent);">Community Initiative</div>
+    <div class="drawer reader-mode" id="drawer-mealshare">
+        <button class="close-drawer magnetic" onclick="closeAllDrawers()">×</button>
+        <div class="section-header">COMMUNITY INITIATIVE</div>
         <h2>Meskerem 1 Meal Share</h2>
         <p>On Meskerem 1, we organized a massive meal-sharing program, reaching out to over 10 individuals and families.</p>
         <p>A shared meal means dignity. It is a reminder that no one is walking through their struggles alone. We aren't just distributing food; we are building bridges of care, one smile at a time.</p>
     </div>
 
     <script>
-        // Smooth Reveal Logic
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+        // 1. Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        themeBtn.addEventListener('click', () => {
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = 'Light Mode';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeBtn.textContent = 'Dark Mode';
+            }
+        });
 
-        document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
-
-        // Drawer Logic
+        // 2. Drawer Logic & iOS Dim/Shrink Effect
         const overlay = document.getElementById('drawer-overlay');
+        const mainWrapper = document.getElementById('main-wrapper');
+        
         function openDrawer(id) {
             overlay.classList.add('active');
             document.getElementById(id).classList.add('active');
+            mainWrapper.classList.add('ios-shrink'); 
+            document.body.style.backgroundColor = html.getAttribute('data-theme') === 'light' ? '#0B192C' : '#000'; 
             document.body.style.overflow = 'hidden'; 
         }
+        
         function closeAllDrawers() {
             overlay.classList.remove('active');
             document.querySelectorAll('.drawer').forEach(d => d.classList.remove('active'));
+            mainWrapper.classList.remove('ios-shrink'); 
+            document.body.style.backgroundColor = 'var(--bg-primary)'; 
             document.body.style.overflow = 'auto';
+            document.getElementById('progress-bar').style.width = '0%'; 
         }
+
+        // 3. Dynamic Reading Progress Bar
+        function updateProgressBar(scrollElement) {
+            const scrolled = (scrollElement.scrollTop / (scrollElement.scrollHeight - scrollElement.clientHeight)) * 100;
+            document.getElementById('progress-bar').style.width = (scrolled || 0) + '%';
+        }
+        window.addEventListener('scroll', () => {
+            if(!overlay.classList.contains('active')) {
+                updateProgressBar(document.documentElement);
+            }
+        });
+        document.querySelectorAll('.drawer').forEach(drawer => {
+            drawer.addEventListener('scroll', (e) => updateProgressBar(e.target));
+        });
+
+        // 4. Magnetic Elements Effect (For Desktop)
+        document.querySelectorAll('.magnetic').forEach(elem => {
+            elem.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                this.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            elem.addEventListener('mouseleave', function() {
+                this.style.transform = 'translate(0px, 0px)';
+            });
+        });
+
+        // 5. Number Counters Animation
+        const counters = document.querySelectorAll('.stat-num');
+        let animated = false;
+        window.addEventListener('scroll', () => {
+            if(animated) return;
+            const heroPos = document.querySelector('.hero').getBoundingClientRect().top;
+            if(heroPos < window.innerHeight) {
+                animated = true;
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const speed = 40; 
+                    const updateCount = () => {
+                        const count = +counter.innerText.replace('+', '');
+                        const inc = target / speed;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 30);
+                        } else {
+                            counter.innerText = target + (target >= 10 ? '+' : '');
+                        }
+                    };
+                    updateCount();
+                });
+            }
+        });
     </script>
 </body>
 </html>
