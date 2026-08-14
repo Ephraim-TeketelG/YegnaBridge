@@ -19,6 +19,7 @@
             --text-gray: #64748b;
             --bg-alt: #f1f5f9;
             --border: #cbd5e1;
+            --border-dark: rgba(255, 255, 255, 0.1);
             --font-head: 'Outfit', sans-serif;
             --font-body: 'Plus Jakarta Sans', sans-serif;
             --font-story: 'Lora', serif;
@@ -29,8 +30,7 @@
         body {
             font-family: var(--font-body); color: var(--text-dark);
             line-height: 1.7; background-color: var(--primary);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
         }
 
         a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
@@ -43,6 +43,10 @@
         ::selection { background: var(--accent); color: #ffffff; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Navigation */
         nav {
@@ -59,13 +63,9 @@
         .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); }
         .nav-links a:hover { color: var(--accent); }
-        .btn-nav-join {
-            background: var(--navy); color: white !important;
-            padding: 10px 22px; border-radius: 50px; font-weight: 600;
-        }
+        .btn-nav-join { background: var(--navy); color: white !important; padding: 10px 22px; border-radius: 50px; font-weight: 600; }
         .btn-nav-join:hover { background: var(--navy-light); transform: translateY(-2px); }
         
-        /* Mobile Hamburger Toggle */
         .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--navy); cursor: pointer; }
         @media (max-width: 768px) {
             .nav-links { 
@@ -86,24 +86,17 @@
             display: inline-block; background: white; border: 1px solid var(--border);
             padding: 8px 18px; border-radius: 50px; font-size: 0.85rem;
             font-weight: 600; color: var(--navy); margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
         .hero h1 {
             font-family: var(--font-head); font-size: clamp(3rem, 6vw, 4.5rem);
             font-weight: 700; line-height: 1.1; letter-spacing: -1.5px;
-            margin-bottom: 20px; max-width: 900px; margin-inline: auto;
-            color: var(--navy);
+            margin-bottom: 20px; max-width: 900px; margin-inline: auto; color: var(--navy);
         }
-        .hero p {
-            font-size: 1.25rem; color: var(--text-gray); max-width: 700px;
-            margin: 0 auto 40px;
-        }
+        .hero p { font-size: 1.25rem; color: var(--text-gray); max-width: 700px; margin: 0 auto 40px; }
         .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        
         .btn-primary, .btn-secondary {
             padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem;
-            display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
-            transition: all 0.3s ease; border: none;
+            display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; transition: all 0.3s ease;
         }
         .btn-primary { background: var(--navy); color: white; }
         .btn-primary:hover { background: var(--navy-light); transform: translateY(-3px); }
@@ -112,108 +105,89 @@
 
         /* Impact Dashboard */
         .impact-section { padding: 80px 0; background: var(--navy); color: white; }
-        .impact-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 30px; text-align: center;
-        }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05); padding: 40px 20px; border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .stat-number {
-            font-family: var(--font-head); font-size: 3.5rem; font-weight: 700;
-            color: #60a5fa; line-height: 1; margin-bottom: 10px;
-        }
+        .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: center; }
+        .stat-card { background: rgba(255, 255, 255, 0.05); padding: 40px 20px; border-radius: 20px; border: 1px solid var(--border-dark); }
+        .stat-number { font-family: var(--font-head); font-size: 3.5rem; font-weight: 700; color: #60a5fa; line-height: 1; margin-bottom: 10px; }
         .stat-label { font-weight: 600; color: white; font-size: 1.1rem; }
         .stat-desc { font-size: 0.9rem; color: #94a3b8; margin-top: 5px; }
 
-        /* Story Section */
-        .story-section { padding: 120px 0; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-        
-        .section-header { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-gray); margin-bottom: 15px; font-weight: 600; display: block; }
-        .section-title { font-family: var(--font-head); font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; color: var(--navy); }
-        .story-text p { font-size: 1.15rem; color: var(--text-gray); margin-bottom: 20px; }
-        .highlight-box {
-            background: #f8fafc; border-left: 4px solid var(--navy);
-            padding: 20px 30px; border-radius: 0 12px 12px 0; margin-top: 30px;
-            border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        /* Section Titles */
+        .section-header { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; font-weight: 700; display: block; text-align: center; }
+        .section-title { font-family: var(--font-head); font-size: 2.8rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; color: var(--navy); text-align: center; }
+        .section-subtitle { text-align: center; color: var(--text-gray); font-size: 1.15rem; max-width: 600px; margin: 0 auto 60px; }
+
+        /* PREMIUM TIMELINE GALLERY */
+        .timeline-section { padding: 120px 0; background: var(--primary); }
+        .timeline { position: relative; max-width: 1000px; margin: 0 auto; }
+        .timeline::before {
+            content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
+            background: var(--border); transform: translateX(-50%);
         }
-        .highlight-box p { color: var(--navy); font-weight: 600; font-size: 1.2rem; margin: 0; font-family: var(--font-head); }
+        .timeline-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 80px; position: relative; width: 100%; }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
         
-        .image-placeholder {
-            width: 100%; height: 450px; background: var(--bg-alt); border-radius: 24px;
-            border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center;
-            justify-content: center; color: var(--text-gray); font-size: 1.1rem; text-align: center; padding: 20px;
+        .timeline-node {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; background: var(--primary); border: 2px solid var(--accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-head); font-weight: 700; color: var(--navy); z-index: 10;
         }
 
-        /* Gallery Section with Interactive Cards */
-        .gallery-section { padding: 100px 0; background: var(--bg-alt); }
-        .gallery-header { text-align: center; max-width: 600px; margin: 0 auto 60px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .gallery-card {
-            background: white; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.3s ease; cursor: pointer; position: relative;
-        }
-        .gallery-card::after {
-            content: "Read Full Story ↗"; position: absolute; bottom: 25px; right: 25px;
-            font-size: 0.85rem; font-weight: 600; color: var(--accent); opacity: 0; transition: opacity 0.3s ease;
-        }
-        .gallery-card:hover { transform: translateY(-5px); border-color: var(--navy); }
-        .gallery-card:hover::after { opacity: 1; }
-        .gallery-img-box { height: 220px; background: #cbd5e1; display: flex; align-items: center; justify-content: center; color: var(--navy); font-weight: 600; }
-        .gallery-content { padding: 30px; }
-        .gallery-date { font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .gallery-content h3 { font-family: var(--font-head); font-size: 1.4rem; color: var(--navy); margin-bottom: 12px; }
-        .gallery-content p { color: var(--text-gray); font-size: 1rem; margin-bottom: 15px; }
-
-        /* Sliding Drawers for Full Stories */
-        .drawer-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-            z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-        }
-        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+        .timeline-content { width: 45%; }
+        .timeline-img-box { width: 45%; height: 300px; background: var(--bg-alt); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-gray); }
+        .timeline-img-box img { width: 100%; height: 100%; object-fit: cover; }
         
-        .drawer {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 650px; height: 100vh;
-            background: var(--primary); z-index: 2001; transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow-y: auto; padding: 60px 8%; box-shadow: -10px 0 40px rgba(0,0,0,0.15);
-        }
-        .drawer.active { right: 0; }
-        
-        .close-drawer {
-            position: absolute; top: 30px; right: 35px; background: none; border: none;
-            font-size: 2rem; color: var(--text-gray); cursor: pointer; transition: color 0.3s ease;
-        }
-        .close-drawer:hover { color: var(--navy); }
-        .drawer h2 { font-family: var(--font-head); font-size: 2.3rem; color: var(--navy); margin-bottom: 20px; letter-spacing: -1px; line-height: 1.2; }
-        .drawer p { font-family: var(--font-story); font-size: 1.15rem; line-height: 1.9; color: var(--text-dark); margin-bottom: 25px; }
-        .drawer ul { margin: 0 0 25px 20px; font-family: var(--font-story); font-size: 1.1rem; line-height: 1.8; color: var(--text-dark); }
+        .timeline-text h3 { font-family: var(--font-head); font-size: 1.8rem; color: var(--navy); margin-bottom: 15px; line-height: 1.2; }
+        .timeline-text p { color: var(--text-gray); font-size: 1.05rem; }
 
-        /* Subscription & Support Cards Section */
-        .support-section { padding: 120px 0; }
-        .support-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
-        .support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        @media (max-width: 768px) {
+            .timeline::before { left: 20px; }
+            .timeline-node { left: 20px; top: 0; transform: translate(-50%, 0); }
+            .timeline-item, .timeline-item:nth-child(even) { flex-direction: column; align-items: flex-start; padding-left: 60px; }
+            .timeline-content, .timeline-img-box { width: 100%; }
+            .timeline-img-box { margin-bottom: 20px; height: 200px; }
+        }
+
+        /* PREMIUM MEMBERS SECTION (Glassmorphism on Navy) */
+        .members-section { padding: 120px 0; background: var(--navy); }
+        .members-section .section-header { color: #60a5fa; }
+        .members-section .section-title { color: white; }
+        .members-section .section-subtitle { color: #94a3b8; }
+        
+        .branch-title { font-family: var(--font-head); font-size: 1.8rem; color: white; margin: 60px 0 30px; border-bottom: 1px solid var(--border-dark); padding-bottom: 10px; }
+        
+        .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .member-card {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;
+            padding: 30px; display: flex; align-items: center; gap: 20px;
+            transition: all 0.3s ease;
+        }
+        .member-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
+        
+        .member-icon {
+            width: 55px; height: 55px; border-radius: 12px; background: rgba(59, 130, 246, 0.1);
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #60a5fa;
+        }
+        
+        .member-info h4 { font-family: var(--font-head); font-size: 1.2rem; color: white; margin-bottom: 4px; }
+        .member-info p { font-size: 0.9rem; color: #94a3b8; font-weight: 500; }
+
+        /* Support & Contact Section */
+        .support-section { padding: 120px 0; background: var(--bg-alt); }
+        .support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
         .support-card {
             background: white; border: 1px solid var(--border); border-radius: 20px; padding: 40px;
-            display: flex; flex-direction: column; justify-content: space-between; position: relative;
-            transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            text-align: center; transition: all 0.3s ease;
         }
-        .support-card.featured { border-color: var(--navy); box-shadow: 0 20px 40px rgba(11, 25, 44, 0.08); }
-        .support-card:hover { transform: translateY(-8px); border-color: var(--navy); }
+        .support-card:hover { transform: translateY(-8px); border-color: var(--navy); box-shadow: 0 10px 30px rgba(11, 25, 44, 0.05); }
         .support-card h3 { font-family: var(--font-head); font-size: 1.5rem; color: var(--navy); margin-bottom: 15px; }
-        .support-card p { color: var(--text-gray); font-size: 1.05rem; margin-bottom: 30px; }
-        .btn-card {
-            background: var(--bg-alt); color: var(--navy); padding: 14px; border-radius: 50px;
-            font-weight: 600; text-align: center; display: block; border: 1px solid var(--border);
-        }
-        .support-card.featured .btn-card { background: var(--navy); color: white; border-color: var(--navy); }
-        .btn-card:hover { background: var(--navy); color: white; }
+        .support-card p { color: var(--text-gray); font-size: 1rem; margin-bottom: 30px; }
+        .btn-card { background: var(--navy); color: white; padding: 14px 24px; border-radius: 50px; font-weight: 600; display: inline-block; }
+        .btn-card:hover { background: var(--navy-light); }
 
-        /* Footer & Contact Hub */
-        footer { background: var(--navy); color: white; padding: 100px 0 60px; }
+        /* Footer */
+        footer { background: var(--navy); color: white; padding: 80px 0 40px; border-top: 1px solid var(--border-dark); }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
         .footer-col h4 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 20px; color: white; }
         .footer-col p { color: #94a3b8; font-size: 1rem; margin-bottom: 15px; }
@@ -235,28 +209,27 @@
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div class="nav-links" id="nav-links">
-                <a href="#about" onclick="toggleMenu()">Story</a>
-                <a href="#impact" onclick="toggleMenu()">Impact</a>
-                <a href="#gallery" onclick="toggleMenu()">Gallery</a>
+                <a href="#gallery" onclick="toggleMenu()">Outreaches</a>
+                <a href="#team" onclick="toggleMenu()">Our Team</a>
                 <a href="#support" class="btn-nav-join" onclick="toggleMenu()">Join the Family</a>
             </div>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="container">
+        <div class="container reveal">
             <div class="badge">Not Charity. Family.</div>
             <h1>Let us change lives together.</h1>
             <p>Founded in 2025, YegnaBridge connects dedicated youth with families and street children in Shinshicho and Addis Ababa, fostering genuine care, dignity, and listening.</p>
             <div class="hero-btns">
                 <a href="#support" class="btn-primary">Connect with Support <i class="fa-solid fa-arrow-right"></i></a>
-                <a href="#about" class="btn-secondary">Read Our Philosophy</a>
+                <a href="#team" class="btn-secondary">Meet Our Team</a>
             </div>
         </div>
     </header>
 
     <section id="impact" class="impact-section">
-        <div class="container impact-grid">
+        <div class="container impact-grid reveal">
             <div class="stat-card">
                 <div class="stat-number" data-target="2">0</div>
                 <div class="stat-label">Active Branches</div>
@@ -280,89 +253,257 @@
         </div>
     </section>
 
-    <section id="about" class="story-section">
-        <div class="container grid-2">
-            <div class="image-placeholder">
-                <i class="fa-regular fa-image" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--navy);"></i>
-                <p>YegnaBridge Shinshicho & Addis Ababa Community Outreach</p>
-            </div>
-            <div class="story-text">
-                <span class="section-header">Our Core Philosophy</span>
-                <h2 class="section-title">Leadership begins with listening.</h2>
-                <p>The word Yegna means ours in Amharic, and Bridge signifies crossing challenges together. We believe the biggest gap in supporting vulnerable families is not just physical supplies, but the lack of someone willing to sit down and listen to real stories.</p>
-                <p>When we assist a mother or a child, our goal is never to hand out temporary items for praise. Our aim is to build family, restore dignity, and walk side by side through life.</p>
+    <section id="gallery" class="timeline-section">
+        <div class="container">
+            <span class="section-header reveal">Moments of Connection</span>
+            <h2 class="section-title reveal">Outreach Gallery</h2>
+            <p class="section-subtitle reveal">A chronological view of our milestones, from our very first step to establishing branches and transforming lives.</p>
+            
+            <div class="timeline">
                 
-                <div class="highlight-box">
-                    <p>Not charity. Family.</p>
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">01</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>Our First Step</h3>
+                        <p>Our foundational outreach in Shinshicho where we first connected deeply with families, marking the true beginning of the YegnaBridge mission.</p>
+                    </div>
                 </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">02</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>Expanding to Addis Ababa</h3>
+                        <p>The official campaign poster calling for dedicated youth volunteers to help us build our second branch in the capital city.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">03</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>Growing the Family</h3>
+                        <p>The mobilization and registration of our new Addis Ababa volunteer team, uniting dedicated youth ready to serve the community.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">04</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>The 15,000 ETB Campaign</h3>
+                        <p>Our unified fundraising effort to gather essential resources for vulnerable families and street children in need of immediate support.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">05</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>The Kindness Challenge</h3>
+                        <p>Engaging our youth and local community through active moments of compassion, shared love, and small acts that make a huge difference.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">06</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>Easter Meal Sharing</h3>
+                        <p>The milestone launch of our Addis Ababa branch, sharing food, clothing, and cultural connection with struggling families during the holiday.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-node">07</div>
+                    <div class="timeline-img-box">
+                        <i class="fa-regular fa-image fa-3x"></i> 
+                    </div>
+                    <div class="timeline-content timeline-text">
+                        <h3>Empowering a Mother</h3>
+                        <p>Moving beyond temporary aid by providing capital and a market shelter to help a single mother in Shinshicho achieve financial independence.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <section id="gallery" class="gallery-section">
+    <section id="team" class="members-section">
         <div class="container">
-            <div class="gallery-header">
-                <span class="section-header">Moments of Connection</span>
-                <h2 class="section-title">Outreach Gallery & Stories</h2>
-                <p>Click any initiative below to read the complete narrative behind our community programs and outreaches.</p>
+            <span class="section-header reveal">The People Behind The Bridge</span>
+            <h2 class="section-title reveal">Our Dedicated Team</h2>
+            <p class="section-subtitle reveal">Meet the youth leaders and active members who make our mission possible every single day.</p>
+            
+            <h3 class="branch-title reveal">Addis Ababa Branch</h3>
+            <div class="member-grid reveal">
+                
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="member-info">
+                        <h4>Ephraim Teketel</h4>
+                        <p>Founder & Executive Director</p>
+                    </div>
+                </div>
+                
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-compass"></i></div>
+                    <div class="member-info">
+                        <h4>Saron Mulugeta</h4>
+                        <p>General Deputy Director</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="member-info">
+                        <h4>Soliyana Wanegnaw</h4>
+                        <p>Addis Ababa President</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-flag"></i></div>
+                    <div class="member-info">
+                        <h4>Yeabsira Abebaw</h4>
+                        <p>Vice President (Addis Ababa)</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-hands-holding-child"></i></div>
+                    <div class="member-info">
+                        <h4>Abigail Adinew</h4>
+                        <p>Volunteers Lead</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div class="member-info">
+                        <h4>Maedot Desta</h4>
+                        <p>Project Lead</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <div class="member-info">
+                        <h4>Soliyana Taye</h4>
+                        <p>Project Lead</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info"><h4>Eldana Zekariyas</h4><p>Active Member</p></div>
+                </div>
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info"><h4>Kewser Mohammed</h4><p>Active Member</p></div>
+                </div>
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info"><h4>Yanet Taddele</h4><p>Active Member</p></div>
+                </div>
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info"><h4>Hulud Nesru</h4><p>Active Member</p></div>
+                </div>
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info"><h4>Mikyas Yosef</h4><p>Active Member</p></div>
+                </div>
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info"><h4>Liya Girmachew</h4><p>Active Member</p></div>
+                </div>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-card" onclick="openDrawer('drawer-shinshicho')">
-                    <div class="gallery-img-box">Shinshicho Initiative Archive</div>
-                    <div class="gallery-content">
-                        <span class="gallery-date">Shinshicho Branch</span>
-                        <h3>Sustainable Marketplace Business</h3>
-                        <p>Supporting a mother by setting up her market shelter and inventory so she can independently sustain her family.</p>
+
+            <h3 class="branch-title reveal" style="margin-top: 80px;">Shinshicho Branch</h3>
+            <div class="member-grid reveal">
+                
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="member-info">
+                        <h4>Endalkachew Tefera</h4>
+                        <p>Branch President</p>
                     </div>
                 </div>
-                <div class="gallery-card" onclick="openDrawer('drawer-addis')">
-                    <div class="gallery-img-box">Addis Ababa Branch Archive</div>
-                    <div class="gallery-content">
-                        <span class="gallery-date">Addis Ababa Branch</span>
-                        <h3>Easter Meal Sharing Program</h3>
-                        <p>Launching our Addis Ababa branch with food provisions, clothing support, and shared cultural moments.</p>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-flag"></i></div>
+                    <div class="member-info">
+                        <h4>Abel Samuel</h4>
+                        <p>Branch Vice President</p>
                     </div>
                 </div>
-                <div class="gallery-card" onclick="openDrawer('drawer-team')">
-                    <div class="gallery-img-box">Central Team Archive</div>
-                    <div class="gallery-content">
-                        <span class="gallery-date">Central Team</span>
-                        <h3>Youth Meetings and Guidance</h3>
-                        <p>Regular team strategy sessions focused on organizing upcoming branch programs and deepening our mission.</p>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="member-info">
+                        <h4>Kalkidan Tadewos</h4>
+                        <p>Financial Lead</p>
                     </div>
                 </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <div class="member-info">
+                        <h4>Lidya Alemayehu</h4>
+                        <p>Project Lead</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div class="member-info">
+                        <h4>Yosef Desta</h4>
+                        <p>Project Lead</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
+                    <div class="member-info">
+                        <h4>Tebarek Tadele</h4>
+                        <p>Member</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
     <section id="support" class="support-section">
         <div class="container">
-            <div class="support-header">
-                <span class="section-header">Get Involved</span>
-                <h2 class="section-title">Choose How to Support Our Family</h2>
-                <p>Select an option below to connect directly with our support team on Telegram. We coordinate all contributions and questions personally.</p>
-            </div>
-            <div class="support-grid">
+            <span class="section-header reveal">Take Action</span>
+            <h2 class="section-title reveal">Join Our Family</h2>
+            <p class="section-subtitle reveal">We coordinate all contributions, volunteer opportunities, and partnerships directly. Reach out to us below.</p>
+            
+            <div class="support-grid reveal">
                 <div class="support-card">
-                    <div>
-                        <h3>Volunteer Locally</h3>
-                        <p>Join our active teams in Shinshicho or Addis Ababa to help organize outreach programs, mentor youth, and spend time with families.</p>
-                    </div>
+                    <h3>Volunteer</h3>
+                    <p>Ready to serve your community? Reach out to join our active teams in Addis Ababa or Shinshicho.</p>
                     <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Message Support Team</a>
                 </div>
-                <div class="support-card featured">
-                    <div>
-                        <h3>Support a Family</h3>
-                        <p>Contribute to our ongoing community funds, food programs, or sustainable business start-ups for vulnerable mothers.</p>
-                    </div>
-                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Coordinate Contribution</a>
-                </div>
                 <div class="support-card">
-                    <div>
-                        <h3>Partner or Inquire</h3>
-                        <p>Are you an organization, media group, or individual wanting to collaborate? Reach out to our central administration.</p>
-                    </div>
-                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Contact Administration</a>
+                    <h3>Support a Family</h3>
+                    <p>Contribute to our ongoing food programs, outreach funds, or business start-ups for vulnerable mothers.</p>
+                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Coordinate Contribution</a>
                 </div>
             </div>
         </div>
@@ -378,7 +519,7 @@
                 <div class="footer-col">
                     <h4>Official Channels</h4>
                     <ul class="social-links-list">
-                        <li><a href="https://t.me/YegnaBridge" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Channel (@YegnaBridge)</a></li>
+                        <li><a href="https://t.me/YegnaBridge" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram (@YegnaBridge)</a></li>
                         <li><a href="https://instagram.com/yegna_bridge" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram (@yegna_bridge)</a></li>
                         <li><a href="https://www.linkedin.com/company/yegnabridge/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn (YegnaBridge)</a></li>
                         <li><a href="https://youtube.com/@yegnabridge" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube (yegnabridge)</a></li>
@@ -386,7 +527,7 @@
                 </div>
                 <div class="footer-col">
                     <h4>Direct Support</h4>
-                    <p>Support & Inquiries: <strong>@yegnabridgesupport</strong></p>
+                    <p>Support Inquiries: <strong>@yegnabridgesupport</strong></p>
                     <p>Email: <strong>yegnabridge.org@gmail.com</strong></p>
                 </div>
             </div>
@@ -396,91 +537,54 @@
         </div>
     </footer>
 
-    <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
-
-    <div class="drawer" id="drawer-shinshicho">
-        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-        <span class="section-header">Shinshicho Branch Initiative</span>
-        <h2>Turning a Dream Into Reality</h2>
-        <p>In our early outreaches in Shinshicho, we met a mother who had faced unimaginable hardship after her husband was killed over a land dispute, leaving her to raise her young son alone with no home or income.</p>
-        <p>When we asked her what she needed most, she did not ask for handouts. She said she wanted to work. She wanted a sustainable way to earn a living.</p>
-        <p>With generous support from donors and community members, we raised funds to help her launch a marketplace business. We purchased a heavy-duty plastic sheet for her market shelter, peas, salt, coffee, potatoes, and cooking oil.</p>
-        <p>Recently, she shared that she bought more stock in bulk twice and successfully retailed it all. Seeing her running her own business independently is the true mission of YegnaBridge in action.</p>
-    </div>
-
-    <div class="drawer" id="drawer-addis">
-        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-        <span class="section-header">Addis Ababa Branch Milestone</span>
-        <h2>The Easter Outreach Program</h2>
-        <p>Today marked an important step for our Addis Ababa branch as we completed our first major outreach activity. We identified and supported a single mother raising four children under difficult conditions.</p>
-        <p>Through the collective effort of our members and supporters, we provided essential supplies valued between 14,000 and 15,000 ETB, including flour, cooking oil, macaroni, rice, onions, salt, soap, and sanitary pads, alongside clothing contributions and cash support.</p>
-        <p>Beyond material assistance, our team spent quality time listening to her story and sharing moments of connection, laughter, and traditional Ethiopian culture.</p>
-    </div>
-
-    <div class="drawer" id="drawer-team">
-        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-        <span class="section-header">Central Team & Structure</span>
-        <h2>Building Our Foundation Together</h2>
-        <p>The YegnaBridge central team holds regular meetings to align our mission across branches in Shinshicho and Addis Ababa. Our work is driven by core values:</p>
-        <ul>
-            <li><strong>Compassion:</strong> Serving with heart and deep empathy.</li>
-            <li><strong>Share Love:</strong> Because family is built on mutual care.</li>
-            <li><strong>Dignity:</strong> Ensuring every person is respected and seen.</li>
-            <li><strong>Empowerment:</strong> Lifting lives so individuals can stand strong independently.</li>
-        </ul>
-        <p>We believe leadership begins with listening, and our team remains dedicated to walking side by side with those we serve.</p>
-    </div>
-
     <script>
         // Mobile Menu Toggle
         function toggleMenu() {
-            const links = document.getElementById('nav-links');
-            links.classList.toggle('active');
+            document.getElementById('nav-links').classList.toggle('active');
         }
 
-        // Drawer Logic
-        const overlay = document.getElementById('drawer-overlay');
-        function openDrawer(id) {
-            overlay.classList.add('active');
-            document.getElementById(id).classList.add('active');
-            document.body.style.overflow = 'hidden'; 
+        // Scroll Reveal Animations
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
         }
-        function closeAllDrawers() {
-            overlay.classList.remove('active');
-            document.querySelectorAll('.drawer').forEach(d => d.classList.remove('active'));
-            document.body.style.overflow = 'auto';
-        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
 
         // Impact Counters Animation
         const counters = document.querySelectorAll('.stat-number');
-        const speed = 40; 
+        let animated = false;
+        
+        window.addEventListener('scroll', () => {
+            const impactSection = document.getElementById('impact');
+            const sectionPos = impactSection.getBoundingClientRect().top;
+            const screenPos = window.innerHeight;
 
-        const animateCounters = () => {
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const inc = target / speed;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(animateCounters, 30);
-                } else {
-                    counter.innerText = target + (target >= 10 ? '+' : '');
-                }
-            });
-        }
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.impact-section').forEach(section => {
-            observer.observe(section);
+            if(sectionPos < screenPos && !animated) {
+                animated = true;
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const speed = 40; 
+                    const updateCount = () => {
+                        const count = +counter.innerText.replace('+', '');
+                        const inc = target / speed;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 30);
+                        } else {
+                            counter.innerText = target + (target >= 10 ? '+' : '');
+                        }
+                    };
+                    updateCount();
+                });
+            }
         });
     </script>
 </body>
