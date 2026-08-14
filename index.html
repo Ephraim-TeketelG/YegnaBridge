@@ -48,6 +48,17 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* iOS Shrink Wrapper */
+        #main-wrapper {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.5s ease;
+            background-color: var(--primary); min-height: 100vh; width: 100%;
+            position: relative; z-index: 1; 
+        }
+        .ios-shrink {
+            transform: scale(0.93) translateY(2vh); border-radius: 24px;
+            overflow: hidden; pointer-events: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
         /* Navigation */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
@@ -99,7 +110,7 @@
             display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; transition: all 0.3s ease;
         }
         .btn-primary { background: var(--navy); color: white; }
-        .btn-primary:hover { background: var(--navy-light); transform: translateY(-3px); }
+        .btn-primary:hover { background: var(--navy-light); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(11,25,44,0.15); }
         .btn-secondary { background: white; color: var(--navy); border: 1px solid var(--border); }
         .btn-secondary:hover { border-color: var(--navy); }
 
@@ -116,37 +127,76 @@
         .section-title { font-family: var(--font-head); font-size: 2.8rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; color: var(--navy); text-align: center; }
         .section-subtitle { text-align: center; color: var(--text-gray); font-size: 1.15rem; max-width: 600px; margin: 0 auto 60px; }
 
-        /* PREMIUM TIMELINE GALLERY */
-        .timeline-section { padding: 120px 0; background: var(--primary); }
-        .timeline { position: relative; max-width: 1000px; margin: 0 auto; }
-        .timeline::before {
-            content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
-            background: var(--border); transform: translateX(-50%);
+        /* ABOUT / PHILOSOPHY SECTION */
+        .story-section { padding: 120px 0; background: var(--primary); }
+        .story-section .section-header { text-align: left; }
+        .story-section .section-title { text-align: left; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        .story-text p { font-size: 1.15rem; color: var(--text-gray); margin-bottom: 20px; }
+        .highlight-box {
+            background: #f8fafc; border-left: 4px solid var(--navy);
+            padding: 20px 30px; border-radius: 0 12px 12px 0; margin-top: 30px;
+            border: 1px solid var(--border); border-left: 4px solid var(--navy);
         }
-        .timeline-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 80px; position: relative; width: 100%; }
-        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+        .highlight-box p { color: var(--navy); font-weight: 600; font-size: 1.2rem; margin: 0; font-family: var(--font-head); }
         
-        .timeline-node {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            width: 40px; height: 40px; background: var(--primary); border: 2px solid var(--accent);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-family: var(--font-head); font-weight: 700; color: var(--navy); z-index: 10;
+        .image-placeholder {
+            width: 100%; height: 450px; background: var(--bg-alt); border-radius: 24px;
+            border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center;
+            justify-content: center; color: var(--text-gray); font-size: 1.1rem; text-align: center; padding: 20px;
         }
 
-        .timeline-content { width: 45%; }
-        .timeline-img-box { width: 45%; height: 300px; background: var(--bg-alt); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-gray); }
-        .timeline-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .timeline-text h3 { font-family: var(--font-head); font-size: 1.8rem; color: var(--navy); margin-bottom: 15px; line-height: 1.2; }
-        .timeline-text p { color: var(--text-gray); font-size: 1.05rem; }
-
-        @media (max-width: 768px) {
-            .timeline::before { left: 20px; }
-            .timeline-node { left: 20px; top: 0; transform: translate(-50%, 0); }
-            .timeline-item, .timeline-item:nth-child(even) { flex-direction: column; align-items: flex-start; padding-left: 60px; }
-            .timeline-content, .timeline-img-box { width: 100%; }
-            .timeline-img-box { margin-bottom: 20px; height: 200px; }
+        /* PREMIUM MOSAIC PHOTO GRID */
+        .photo-grid-section { padding: 120px 0; background: var(--bg-alt); }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-auto-rows: 250px;
+            gap: 15px;
+            margin-top: 40px;
         }
+        .photo-item {
+            position: relative; border-radius: 12px; overflow: hidden; cursor: pointer;
+            background: #cbd5e1; display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* Mosaic Sizing Classes */
+        @media (min-width: 768px) {
+            .huge { grid-column: span 2; grid-row: span 2; }
+            .wide { grid-column: span 2; }
+            .tall { grid-row: span 2; }
+        }
+
+        .photo-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .photo-item:hover img { transform: scale(1.08); }
+        
+        /* Dark Gradient Hover Overlay */
+        .photo-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(11, 25, 44, 0.95) 0%, rgba(11, 25, 44, 0.3) 50%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 25px; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .photo-item:hover .photo-overlay { opacity: 1; }
+        
+        /* Animated Text */
+        .photo-overlay h3 { 
+            color: white; font-family: var(--font-head); font-size: 1.4rem; 
+            transform: translateY(15px); transition: transform 0.4s ease; margin-bottom: 5px; line-height: 1.2;
+        }
+        .photo-item:hover .photo-overlay h3 { transform: translateY(0); }
+        
+        .photo-overlay span { 
+            color: var(--accent); font-weight: 600; font-size: 0.9rem; 
+            transform: translateY(15px); transition: transform 0.4s ease; transition-delay: 0.05s; 
+        }
+        .photo-item:hover .photo-overlay span { transform: translateY(0); }
+
+        .photo-fallback { position: absolute; z-index: -1; color: var(--text-gray); }
 
         /* PREMIUM MEMBERS SECTION (Glassmorphism on Navy) */
         .members-section { padding: 120px 0; background: var(--navy); }
@@ -195,10 +245,34 @@
         .social-links-list a { color: #94a3b8; display: inline-flex; align-items: center; gap: 10px; font-weight: 500; }
         .social-links-list a:hover { color: white; }
         .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px; text-align: center; color: #94a3b8; font-size: 0.9rem; }
+
+        /* Sliding Drawers */
+        .drawer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+            z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .drawer {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 650px; height: 100vh;
+            background: var(--primary); z-index: 2001; transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto; padding: 60px 8%; box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+        }
+        .drawer.active { right: 0; }
+        
+        .close-drawer {
+            position: absolute; top: 30px; right: 35px; background: none; border: none;
+            font-size: 2rem; color: var(--text-gray); cursor: pointer; transition: color 0.3s ease;
+        }
+        .close-drawer:hover { color: var(--navy); }
+        .drawer h2 { font-family: var(--font-head); font-size: 2.3rem; color: var(--navy); margin-bottom: 20px; letter-spacing: -1px; line-height: 1.2; }
+        .drawer p { font-family: var(--font-story); font-size: 1.15rem; line-height: 1.9; color: var(--text-dark); margin-bottom: 25px; }
     </style>
 </head>
 <body>
 
+<div id="main-wrapper">
     <nav>
         <div class="container nav-inner">
             <div class="logo-area">
@@ -209,7 +283,8 @@
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div class="nav-links" id="nav-links">
-                <a href="#gallery" onclick="toggleMenu()">Outreaches</a>
+                <a href="#about" onclick="toggleMenu()">Philosophy</a>
+                <a href="#gallery" onclick="toggleMenu()">Gallery</a>
                 <a href="#team" onclick="toggleMenu()">Our Team</a>
                 <a href="#support" class="btn-nav-join" onclick="toggleMenu()">Join the Family</a>
             </div>
@@ -223,7 +298,7 @@
             <p>Founded in 2025, YegnaBridge connects dedicated youth with families and street children in Shinshicho and Addis Ababa, fostering genuine care, dignity, and listening.</p>
             <div class="hero-btns">
                 <a href="#support" class="btn-primary">Connect with Support <i class="fa-solid fa-arrow-right"></i></a>
-                <a href="#team" class="btn-secondary">Meet Our Team</a>
+                <a href="#about" class="btn-secondary">Read Our Philosophy</a>
             </div>
         </div>
     </header>
@@ -253,89 +328,139 @@
         </div>
     </section>
 
-    <section id="gallery" class="timeline-section">
+    <section id="about" class="story-section">
+        <div class="container grid-2">
+            <div class="image-placeholder reveal">
+                <i class="fa-regular fa-image" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--navy);"></i>
+                <p>YegnaBridge Shinshicho & Addis Ababa Community Outreach</p>
+            </div>
+            <div class="story-text reveal">
+                <span class="section-header">Our Core Philosophy</span>
+                <h2 class="section-title">Leadership begins with listening.</h2>
+                <p>The word Yegna means ours in Amharic, and Bridge signifies crossing challenges together. We believe the biggest gap in supporting vulnerable families is not just physical supplies, but the lack of someone willing to sit down and listen to real stories.</p>
+                <p>When we assist a mother or a child, our goal is never to hand out temporary items for praise. Our aim is to build family, restore dignity, and walk side by side through life.</p>
+                
+                <div class="highlight-box">
+                    <p>Not charity. Family.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="photo-grid-section">
         <div class="container">
             <span class="section-header reveal">Moments of Connection</span>
             <h2 class="section-title reveal">Outreach Gallery</h2>
-            <p class="section-subtitle reveal">A chronological view of our milestones, from our very first step to establishing branches and transforming lives.</p>
+            <p class="section-subtitle reveal">Click on any photograph to read the full story behind the moment.</p>
             
-            <div class="timeline">
+            <div class="photo-grid reveal">
                 
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">01</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>Our First Step</h3>
-                        <p>Our foundational outreach in Shinshicho where we first connected deeply with families, marking the true beginning of the YegnaBridge mission.</p>
-                    </div>
+                <div class="photo-item huge" onclick="openDrawer('drawer-mother')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="Motherbusinness1.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item tall" onclick="openDrawer('drawer-mother')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="motherbusinness2.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item" onclick="openDrawer('drawer-mother')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="motherbusinness3.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item wide" onclick="openDrawer('drawer-mother')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="motherbusinness4.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item" onclick="openDrawer('drawer-mother')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="motherbusinness5.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
                 </div>
 
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">02</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>Expanding to Addis Ababa</h3>
-                        <p>The official campaign poster calling for dedicated youth volunteers to help us build our second branch in the capital city.</p>
-                    </div>
+                <div class="photo-item huge" onclick="openDrawer('drawer-easter')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="easteraddis1.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item tall" onclick="openDrawer('drawer-easter')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="easteraddis.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item" onclick="openDrawer('drawer-easter')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="easteraddis2.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item" onclick="openDrawer('drawer-easter')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="easteraddis3.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item wide" onclick="openDrawer('drawer-easter')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="easteraddis4.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
                 </div>
 
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">03</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>Growing the Family</h3>
-                        <p>The mobilization and registration of our new Addis Ababa volunteer team, uniting dedicated youth ready to serve the community.</p>
-                    </div>
+                <div class="photo-item huge" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare1.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
                 </div>
-
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">04</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>The 15,000 ETB Campaign</h3>
-                        <p>Our unified fundraising effort to gather essential resources for vulnerable families and street children in need of immediate support.</p>
-                    </div>
+                <div class="photo-item tall" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare2.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
                 </div>
-
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">05</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>The Kindness Challenge</h3>
-                        <p>Engaging our youth and local community through active moments of compassion, shared love, and small acts that make a huge difference.</p>
-                    </div>
+                <div class="photo-item" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare3.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
                 </div>
-
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">06</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>Easter Meal Sharing</h3>
-                        <p>The milestone launch of our Addis Ababa branch, sharing food, clothing, and cultural connection with struggling families during the holiday.</p>
-                    </div>
+                <div class="photo-item wide" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare4.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
                 </div>
-
-                <div class="timeline-item reveal">
-                    <div class="timeline-node">07</div>
-                    <div class="timeline-img-box">
-                        <i class="fa-regular fa-image fa-3x"></i> 
-                    </div>
-                    <div class="timeline-content timeline-text">
-                        <h3>Empowering a Mother</h3>
-                        <p>Moving beyond temporary aid by providing capital and a market shelter to help a single mother in Shinshicho achieve financial independence.</p>
-                    </div>
+                <div class="photo-item" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare5.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item tall" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare6.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item wide" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare7.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare8.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item huge" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare9.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item tall" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare10.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
+                </div>
+                <div class="photo-item wide" onclick="openDrawer('drawer-mealshare')">
+                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
+                    <img src="mealshare11.jpg" onerror="this.style.opacity='0'">
+                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
                 </div>
 
             </div>
@@ -352,7 +477,7 @@
             <div class="member-grid reveal">
                 
                 <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="member-icon"><i class="fa-solid fa-bridge"></i></div>
                     <div class="member-info">
                         <h4>Ephraim Teketel</h4>
                         <p>Founder & Executive Director</p>
@@ -368,7 +493,7 @@
                 </div>
 
                 <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="member-icon"><i class="fa-solid fa-map-location-dot"></i></div>
                     <div class="member-info">
                         <h4>Soliyana Wanegnaw</h4>
                         <p>Addis Ababa President</p>
@@ -376,7 +501,7 @@
                 </div>
 
                 <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-flag"></i></div>
+                    <div class="member-icon"><i class="fa-solid fa-handshake"></i></div>
                     <div class="member-info">
                         <h4>Yeabsira Abebaw</h4>
                         <p>Vice President (Addis Ababa)</p>
@@ -384,7 +509,7 @@
                 </div>
 
                 <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-hands-holding-child"></i></div>
+                    <div class="member-icon"><i class="fa-solid fa-users"></i></div>
                     <div class="member-info">
                         <h4>Abigail Adinew</h4>
                         <p>Volunteers Lead</p>
@@ -536,6 +661,31 @@
             </div>
         </div>
     </footer>
+</div> <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+
+<div class="drawer" id="drawer-mother">
+    <button class="close-drawer" onclick="closeAllDrawers()">×</button>
+    <span class="section-header">Shinshicho Branch</span>
+    <h2>Empowering a Mother</h2>
+    <p>We met a mother who was struggling to provide for her daughter after her husband was killed over a land dispute. She didn't want permanent charity; she wanted to work.</p>
+    <p>With the support of our donors, we raised approximately 10,000 ETB to purchase a heavy-duty plastic market shelter, potatoes, peas, salt, and coffee. We recently visited her again and found that she had successfully retailed her stock twice. She is now standing on her own feet—the ultimate goal of YegnaBridge.</p>
+</div>
+
+<div class="drawer" id="drawer-easter">
+    <button class="close-drawer" onclick="closeAllDrawers()">×</button>
+    <span class="section-header">Addis Ababa Branch</span>
+    <h2>Easter Meal Sharing</h2>
+    <p>We celebrated the launch of our Addis Ababa branch by organizing a meal sharing program during the Easter season. We reached out to families and individuals, sharing not just food and clothing, but culture, warmth, and belonging.</p>
+    <p>It was a day filled with Ethiopian traditions, showing that true support is holistic—it nourishes the body and the soul.</p>
+</div>
+
+<div class="drawer" id="drawer-mealshare">
+    <button class="close-drawer" onclick="closeAllDrawers()">×</button>
+    <span class="section-header">Shinshicho Branch</span>
+    <h2>Meskerem 1 Meal Share</h2>
+    <p>At YegnaBridge, we believe that small acts of compassion can create ripples of change. On Meskerem 1, we organized a massive meal-sharing program with the community.</p>
+    <p>With the support of our team, we reached out to over 10 individuals and families. A shared meal means warmth, dignity, and a reminder that no one is alone. We aren't just distributing food; we are building bridges of care, one meal and one smile at a time.</p>
+</div>
 
     <script>
         // Mobile Menu Toggle
@@ -556,7 +706,27 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Trigger on load
+        reveal(); 
+
+        // Drawer Logic & iOS Shrink
+        const overlay = document.getElementById('drawer-overlay');
+        const mainWrapper = document.getElementById('main-wrapper');
+        
+        function openDrawer(id) {
+            overlay.classList.add('active');
+            document.getElementById(id).classList.add('active');
+            mainWrapper.classList.add('ios-shrink'); 
+            document.body.style.backgroundColor = '#0B192C'; // Navy background for contrast
+            document.body.style.overflow = 'hidden'; 
+        }
+        
+        function closeAllDrawers() {
+            overlay.classList.remove('active');
+            document.querySelectorAll('.drawer').forEach(d => d.classList.remove('active'));
+            mainWrapper.classList.remove('ios-shrink'); 
+            document.body.style.backgroundColor = 'var(--primary)'; 
+            document.body.style.overflow = 'auto';
+        }
 
         // Impact Counters Animation
         const counters = document.querySelectorAll('.stat-number');
@@ -564,6 +734,7 @@
         
         window.addEventListener('scroll', () => {
             const impactSection = document.getElementById('impact');
+            if(!impactSection) return;
             const sectionPos = impactSection.getBoundingClientRect().top;
             const screenPos = window.innerHeight;
 
