@@ -4,608 +4,267 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YegnaBridge | Not Charity. Family.</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #ffffff;
-            --navy: #0B192C;
-            --navy-light: #1E3E62;
-            --accent: #3B82F6;
-            --text-dark: #0f172a;
-            --text-gray: #64748b;
-            --bg-alt: #f1f5f9;
-            --border: #cbd5e1;
-            --border-dark: rgba(255, 255, 255, 0.1);
-            --font-head: 'Outfit', sans-serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-            --font-story: 'Lora', serif;
+            --bg-dark: #040d1a; /* Extremely deep, rich navy/black */
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --line-color: rgba(255, 255, 255, 0.15);
+            --accent: #60a5fa;
+            
+            --font-ui: 'Inter', sans-serif;
+            --font-display: 'Playfair Display', serif;
         }
 
+        /* Reset & Global */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: var(--font-body); color: var(--text-dark);
-            line-height: 1.7; background-color: var(--primary);
-            overflow-x: hidden; -webkit-font-smoothing: antialiased;
+            background-color: var(--bg-dark); color: var(--text-light);
+            font-family: var(--font-ui); line-height: 1.6;
+            -webkit-font-smoothing: antialiased; overflow-x: hidden;
         }
 
-        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
-        
+        a { text-decoration: none; color: inherit; }
+
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--primary); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--navy); }
-        ::selection { background: var(--accent); color: #ffffff; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); }
+        ::selection { background: var(--text-light); color: var(--bg-dark); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        /* Smooth Reveal System */
+        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-        /* Scroll Reveal Animation Classes */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* Structural Grid Constraints */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 4%; }
+        .divider { width: 100%; height: 1px; background: var(--line-color); }
 
-        /* iOS Shrink Wrapper */
-        #main-wrapper {
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.5s ease;
-            background-color: var(--primary); min-height: 100vh; width: 100%;
-            position: relative; z-index: 1; 
-        }
-        .ios-shrink {
-            transform: scale(0.93) translateY(2vh); border-radius: 24px;
-            overflow: hidden; pointer-events: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Navigation */
+        /* Ultra-Minimal Navigation */
         nav {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border); padding: 18px 0;
+            padding: 30px 4%; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: linear-gradient(to bottom, rgba(4,13,26,0.9), transparent);
+            backdrop-filter: blur(5px);
         }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-img { height: 40px; width: auto; object-fit: contain; }
-        .logo-text { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; color: var(--navy); }
-        .logo-text span { color: var(--accent); }
+        .logo-area { display: flex; align-items: center; gap: 15px; font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; letter-spacing: -0.5px; }
+        .logo-area img { height: 35px; }
         
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); }
+        .nav-links { display: flex; gap: 40px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+        .nav-links a { position: relative; padding-bottom: 5px; transition: color 0.3s ease; }
         .nav-links a:hover { color: var(--accent); }
-        .btn-nav-join { background: var(--navy); color: white !important; padding: 10px 22px; border-radius: 50px; font-weight: 600; }
-        .btn-nav-join:hover { background: var(--navy-light); transform: translateY(-2px); }
-        
-        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--navy); cursor: pointer; }
-        @media (max-width: 768px) {
-            .nav-links { 
-                position: absolute; top: 100%; left: 0; width: 100%; background: white;
-                flex-direction: column; padding: 30px; border-bottom: 1px solid var(--border);
-                transform: translateY(-150%); opacity: 0; transition: all 0.4s ease; pointer-events: none;
-            }
-            .nav-links.active { transform: translateY(0); opacity: 1; pointer-events: auto; }
-            .menu-toggle { display: block; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 1px;
+            background: var(--accent); transition: width 0.3s ease;
         }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* Hero Section */
+        /* Cinematic Hero Section */
         .hero { 
-            padding: 180px 0 100px; text-align: center; 
-            background: linear-gradient(180deg, #f8fafc 0%, var(--primary) 100%);
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; 
+            padding-top: 80px; position: relative;
         }
-        .badge {
-            display: inline-block; background: white; border: 1px solid var(--border);
-            padding: 8px 18px; border-radius: 50px; font-size: 0.85rem;
-            font-weight: 600; color: var(--navy); margin-bottom: 20px;
-        }
+        .hero-tag { font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; color: var(--text-muted); margin-bottom: 20px; display: block; }
         .hero h1 {
-            font-family: var(--font-head); font-size: clamp(3rem, 6vw, 4.5rem);
-            font-weight: 700; line-height: 1.1; letter-spacing: -1.5px;
-            margin-bottom: 20px; max-width: 900px; margin-inline: auto; color: var(--navy);
+            font-family: var(--font-display); font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 0.95; font-weight: 400; letter-spacing: -2px; margin-bottom: 40px;
+            max-width: 1200px;
         }
-        .hero p { font-size: 1.25rem; color: var(--text-gray); max-width: 700px; margin: 0 auto 40px; }
-        .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .btn-primary, .btn-secondary {
-            padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem;
-            display: inline-flex; align-items: center; gap: 10px; cursor: pointer; border: none; transition: all 0.3s ease;
+        .hero h1 i { font-style: italic; color: var(--accent); }
+        .hero p {
+            font-size: 1.2rem; font-weight: 300; max-width: 500px; color: var(--text-muted);
         }
-        .btn-primary { background: var(--navy); color: white; }
-        .btn-primary:hover { background: var(--navy-light); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(11,25,44,0.15); }
-        .btn-secondary { background: white; color: var(--navy); border: 1px solid var(--border); }
-        .btn-secondary:hover { border-color: var(--navy); }
 
-        /* Impact Dashboard */
-        .impact-section { padding: 80px 0; background: var(--navy); color: white; }
-        .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: center; }
-        .stat-card { background: rgba(255, 255, 255, 0.05); padding: 40px 20px; border-radius: 20px; border: 1px solid var(--border-dark); }
-        .stat-number { font-family: var(--font-head); font-size: 3.5rem; font-weight: 700; color: #60a5fa; line-height: 1; margin-bottom: 10px; }
-        .stat-label { font-weight: 600; color: white; font-size: 1.1rem; }
-        .stat-desc { font-size: 0.9rem; color: #94a3b8; margin-top: 5px; }
-
-        /* Section Titles */
-        .section-header { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; font-weight: 700; display: block; text-align: center; }
-        .section-title { font-family: var(--font-head); font-size: 2.8rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; color: var(--navy); text-align: center; }
-        .section-subtitle { text-align: center; color: var(--text-gray); font-size: 1.15rem; max-width: 600px; margin: 0 auto 60px; }
-
-        /* ABOUT / PHILOSOPHY SECTION */
-        .story-section { padding: 120px 0; background: var(--primary); }
-        .story-section .section-header { text-align: left; }
-        .story-section .section-title { text-align: left; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-        .story-text p { font-size: 1.15rem; color: var(--text-gray); margin-bottom: 20px; }
-        .highlight-box {
-            background: #f8fafc; border-left: 4px solid var(--navy);
-            padding: 20px 30px; border-radius: 0 12px 12px 0; margin-top: 30px;
-            border: 1px solid var(--border); border-left: 4px solid var(--navy);
+        /* Architectural Stats Section */
+        .stats-wrap { border-top: 1px solid var(--line-color); border-bottom: 1px solid var(--line-color); display: flex; flex-wrap: wrap; }
+        .stat-box {
+            flex: 1; min-width: 250px; padding: 60px 4%;
+            border-right: 1px solid var(--line-color);
         }
-        .highlight-box p { color: var(--navy); font-weight: 600; font-size: 1.2rem; margin: 0; font-family: var(--font-head); }
+        .stat-box:last-child { border-right: none; }
+        .stat-num { font-family: var(--font-display); font-size: 4rem; font-weight: 400; margin-bottom: 10px; line-height: 1; }
+        .stat-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
+
+        /* Editorial About Section */
+        .about-section { padding: 150px 0; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
+        @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 50px; } }
+        .about-title { font-family: var(--font-display); font-size: 3rem; line-height: 1.1; font-weight: 400; }
+        .about-text { font-size: 1.25rem; font-weight: 300; color: var(--text-muted); line-height: 1.8; }
+        .about-text p { margin-bottom: 30px; }
+        .about-text strong { color: var(--text-light); font-weight: 500; }
+
+        /* High-End Gallery Grid */
+        .gallery-section { padding: 100px 0 150px; }
+        .section-header { font-family: var(--font-display); font-size: 4rem; margin-bottom: 60px; font-weight: 400; letter-spacing: -1px; }
         
-        .image-placeholder {
-            width: 100%; height: 450px; background: var(--bg-alt); border-radius: 24px;
-            border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center;
-            justify-content: center; color: var(--text-gray); font-size: 1.1rem; text-align: center; padding: 20px;
+        .premium-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2px; background: var(--line-color); border: 1px solid var(--line-color);
         }
-
-        /* PREMIUM MOSAIC PHOTO GRID */
-        .photo-grid-section { padding: 120px 0; background: var(--bg-alt); }
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            grid-auto-rows: 250px;
-            gap: 15px;
-            margin-top: 40px;
-        }
-        .photo-item {
-            position: relative; border-radius: 12px; overflow: hidden; cursor: pointer;
-            background: #cbd5e1; display: flex; align-items: center; justify-content: center;
+        .grid-item {
+            background: var(--bg-dark); position: relative; overflow: hidden; cursor: pointer;
+            aspect-ratio: 4/5; display: flex; flex-direction: column;
         }
         
-        /* Mosaic Sizing Classes */
-        @media (min-width: 768px) {
-            .huge { grid-column: span 2; grid-row: span 2; }
-            .wide { grid-column: span 2; }
-            .tall { grid-row: span 2; }
+        /* Grayscale to Color Image Effect */
+        .grid-image {
+            width: 100%; height: 75%; overflow: hidden; position: relative;
         }
-
-        .photo-item img {
+        .grid-image img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s ease;
+            filter: grayscale(100%) contrast(1.1); opacity: 0.7;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .photo-item:hover img { transform: scale(1.08); }
+        .grid-item:hover .grid-image img {
+            filter: grayscale(0%) contrast(1); opacity: 1; transform: scale(1.05);
+        }
         
-        /* Dark Gradient Hover Overlay */
-        .photo-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(11, 25, 44, 0.95) 0%, rgba(11, 25, 44, 0.3) 50%, transparent 100%);
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 25px; opacity: 0; transition: opacity 0.3s ease;
+        /* Minimal Typography Box */
+        .grid-info {
+            padding: 30px; height: 25%; display: flex; flex-direction: column; justify-content: center;
+            border-top: 1px solid var(--line-color); transition: background 0.4s ease;
         }
-        .photo-item:hover .photo-overlay { opacity: 1; }
-        
-        /* Animated Text */
-        .photo-overlay h3 { 
-            color: white; font-family: var(--font-head); font-size: 1.4rem; 
-            transform: translateY(15px); transition: transform 0.4s ease; margin-bottom: 5px; line-height: 1.2;
-        }
-        .photo-item:hover .photo-overlay h3 { transform: translateY(0); }
-        
-        .photo-overlay span { 
-            color: var(--accent); font-weight: 600; font-size: 0.9rem; 
-            transform: translateY(15px); transition: transform 0.4s ease; transition-delay: 0.05s; 
-        }
-        .photo-item:hover .photo-overlay span { transform: translateY(0); }
+        .grid-item:hover .grid-info { background: rgba(255,255,255,0.03); }
+        .grid-title { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 5px; font-weight: 400; }
+        .grid-meta { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
 
-        .photo-fallback { position: absolute; z-index: -1; color: var(--text-gray); }
-
-        /* PREMIUM MEMBERS SECTION (Glassmorphism on Navy) */
-        .members-section { padding: 120px 0; background: var(--navy); }
-        .members-section .section-header { color: #60a5fa; }
-        .members-section .section-title { color: white; }
-        .members-section .section-subtitle { color: #94a3b8; }
+        /* Elegantly Listed Team Section */
+        .team-section { padding: 100px 0 150px; border-top: 1px solid var(--line-color); }
+        .team-wrapper { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; }
+        @media (max-width: 900px) { .team-wrapper { grid-template-columns: 1fr; } }
         
-        .branch-title { font-family: var(--font-head); font-size: 1.8rem; color: white; margin: 60px 0 30px; border-bottom: 1px solid var(--border-dark); padding-bottom: 10px; }
-        
-        .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .member-card {
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;
-            padding: 30px; display: flex; align-items: center; gap: 20px;
-            transition: all 0.3s ease;
+        .team-list { list-style: none; margin-bottom: 60px; }
+        .team-list-header { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 30px; }
+        .team-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 25px 0; border-bottom: 1px solid var(--line-color); transition: padding 0.3s ease;
         }
-        .member-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
-        
-        .member-icon {
-            width: 55px; height: 55px; border-radius: 12px; background: rgba(59, 130, 246, 0.1);
-            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #60a5fa;
-        }
-        
-        .member-info h4 { font-family: var(--font-head); font-size: 1.2rem; color: white; margin-bottom: 4px; }
-        .member-info p { font-size: 0.9rem; color: #94a3b8; font-weight: 500; }
-
-        /* Support & Contact Section */
-        .support-section { padding: 120px 0; background: var(--bg-alt); }
-        .support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
-        .support-card {
-            background: white; border: 1px solid var(--border); border-radius: 20px; padding: 40px;
-            text-align: center; transition: all 0.3s ease;
-        }
-        .support-card:hover { transform: translateY(-8px); border-color: var(--navy); box-shadow: 0 10px 30px rgba(11, 25, 44, 0.05); }
-        .support-card h3 { font-family: var(--font-head); font-size: 1.5rem; color: var(--navy); margin-bottom: 15px; }
-        .support-card p { color: var(--text-gray); font-size: 1rem; margin-bottom: 30px; }
-        .btn-card { background: var(--navy); color: white; padding: 14px 24px; border-radius: 50px; font-weight: 600; display: inline-block; }
-        .btn-card:hover { background: var(--navy-light); }
+        .team-row:hover { padding-left: 15px; padding-right: 15px; background: rgba(255,255,255,0.02); }
+        .team-name { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; }
+        .team-role { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
 
         /* Footer */
-        footer { background: var(--navy); color: white; padding: 80px 0 40px; border-top: 1px solid var(--border-dark); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
-        .footer-col h4 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 20px; color: white; }
-        .footer-col p { color: #94a3b8; font-size: 1rem; margin-bottom: 15px; }
-        .social-links-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-        .social-links-list a { color: #94a3b8; display: inline-flex; align-items: center; gap: 10px; font-weight: 500; }
-        .social-links-list a:hover { color: white; }
-        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px; text-align: center; color: #94a3b8; font-size: 0.9rem; }
+        footer { padding: 100px 0; border-top: 1px solid var(--line-color); }
+        .footer-huge { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 50px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-col h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 20px; }
+        .footer-col a { display: block; font-size: 1.1rem; margin-bottom: 15px; transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--accent); }
 
-        /* Sliding Drawers */
+        /* Minimal Drawer */
         .drawer-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+            background: rgba(4,13,26,0.8); backdrop-filter: blur(10px);
             z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         .drawer-overlay.active { opacity: 1; pointer-events: auto; }
         
         .drawer {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 650px; height: 100vh;
-            background: var(--primary); z-index: 2001; transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow-y: auto; padding: 60px 8%; box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 600px; height: 100vh;
+            background: var(--bg-dark); border-left: 1px solid var(--line-color);
+            z-index: 2001; transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto; padding: 80px 5%;
         }
         .drawer.active { right: 0; }
         
         .close-drawer {
-            position: absolute; top: 30px; right: 35px; background: none; border: none;
-            font-size: 2rem; color: var(--text-gray); cursor: pointer; transition: color 0.3s ease;
+            position: absolute; top: 30px; right: 40px; background: none; border: none;
+            font-size: 2rem; color: var(--text-light); cursor: pointer; font-weight: 300;
         }
-        .close-drawer:hover { color: var(--navy); }
-        .drawer h2 { font-family: var(--font-head); font-size: 2.3rem; color: var(--navy); margin-bottom: 20px; letter-spacing: -1px; line-height: 1.2; }
-        .drawer p { font-family: var(--font-story); font-size: 1.15rem; line-height: 1.9; color: var(--text-dark); margin-bottom: 25px; }
+        .drawer h2 { font-family: var(--font-display); font-size: 3rem; line-height: 1.1; margin-bottom: 30px; font-weight: 400; }
+        .drawer p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 25px; font-weight: 300; }
     </style>
 </head>
 <body>
 
-<div id="main-wrapper">
     <nav>
-        <div class="container nav-inner">
-            <div class="logo-area">
-                <img src="logo.png" alt="YegnaBridge Logo" class="logo-img" onerror="this.style.display='none'">
-                <div class="logo-text">Yegna<span>Bridge</span></div>
-            </div>
-            <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="#about" onclick="toggleMenu()">Philosophy</a>
-                <a href="#gallery" onclick="toggleMenu()">Gallery</a>
-                <a href="#team" onclick="toggleMenu()">Our Team</a>
-                <a href="#support" class="btn-nav-join" onclick="toggleMenu()">Join the Family</a>
-            </div>
+        <div class="logo-area">
+            <img src="logo.png" alt="" onerror="this.style.display='none'">
+            YegnaBridge.
+        </div>
+        <div class="nav-links">
+            <a href="#about">Story</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#team">Team</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="container reveal">
-            <div class="badge">Not Charity. Family.</div>
-            <h1>Let us change lives together.</h1>
-            <p>Founded in 2025, YegnaBridge connects dedicated youth with families and street children in Shinshicho and Addis Ababa, fostering genuine care, dignity, and listening.</p>
-            <div class="hero-btns">
-                <a href="#support" class="btn-primary">Connect with Support <i class="fa-solid fa-arrow-right"></i></a>
-                <a href="#about" class="btn-secondary">Read Our Philosophy</a>
-            </div>
-        </div>
-    </header>
+    <div class="container">
+        <header class="hero fade-up">
+            <span class="hero-tag">Est. 2025 • Ethiopia</span>
+            <h1>We do not do charity.<br>We build <i>family.</i></h1>
+            <p>A youth-led organization crossing the bridge of pain through listening, dignity, and sustainable empowerment.</p>
+        </header>
+    </div>
 
-    <section id="impact" class="impact-section">
-        <div class="container impact-grid reveal">
-            <div class="stat-card">
-                <div class="stat-number" data-target="2">0</div>
-                <div class="stat-label">Active Branches</div>
-                <div class="stat-desc">Shinshicho & Addis Ababa</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="50">0</div>
-                <div class="stat-label">Team Members</div>
-                <div class="stat-desc">Dedicated youth across branches</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="15">0</div>
-                <div class="stat-label">Families Supported</div>
-                <div class="stat-desc">Provided with sustainable aid</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" data-target="5">0</div>
-                <div class="stat-label">Street Children</div>
-                <div class="stat-desc">Directly assisted with care</div>
-            </div>
+    <section class="stats-wrap fade-up">
+        <div class="stat-box">
+            <div class="stat-num">02</div>
+            <div class="stat-label">Active Branches</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">50+</div>
+            <div class="stat-label">Youth Leaders</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">15+</div>
+            <div class="stat-label">Families Sustained</div>
         </div>
     </section>
 
-    <section id="about" class="story-section">
-        <div class="container grid-2">
-            <div class="image-placeholder reveal">
-                <i class="fa-regular fa-image" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--navy);"></i>
-                <p>YegnaBridge Shinshicho & Addis Ababa Community Outreach</p>
-            </div>
-            <div class="story-text reveal">
-                <span class="section-header">Our Core Philosophy</span>
-                <h2 class="section-title">Leadership begins with listening.</h2>
-                <p>The word Yegna means ours in Amharic, and Bridge signifies crossing challenges together. We believe the biggest gap in supporting vulnerable families is not just physical supplies, but the lack of someone willing to sit down and listen to real stories.</p>
-                <p>When we assist a mother or a child, our goal is never to hand out temporary items for praise. Our aim is to build family, restore dignity, and walk side by side through life.</p>
-                
-                <div class="highlight-box">
-                    <p>Not charity. Family.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="gallery" class="photo-grid-section">
+    <section id="about" class="about-section fade-up">
         <div class="container">
-            <span class="section-header reveal">Moments of Connection</span>
-            <h2 class="section-title reveal">Outreach Gallery</h2>
-            <p class="section-subtitle reveal">Click on any photograph to read the full story behind the moment.</p>
-            
-            <div class="photo-grid reveal">
-                
-                <div class="photo-item huge" onclick="openDrawer('drawer-mother')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="Motherbusinness1.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
+            <div class="about-grid">
+                <div class="about-title">Leadership begins<br>with listening.</div>
+                <div class="about-text">
+                    <p>The word <strong>Yegna</strong> means <em>ours</em> in Amharic, and <strong>Bridge</strong> signifies crossing challenges together. We believe the biggest gap in supporting vulnerable communities is not just physical supplies, but the profound lack of someone willing to sit down and listen.</p>
+                    <p>When we assist a mother or a child in Shinshicho or Addis Ababa, our goal is never to hand out temporary items for praise. Our mandate is to restore dignity and walk side-by-side through life.</p>
                 </div>
-                <div class="photo-item tall" onclick="openDrawer('drawer-mother')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="motherbusinness2.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-mother')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="motherbusinness3.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item wide" onclick="openDrawer('drawer-mother')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="motherbusinness4.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-mother')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="motherbusinness5.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Empowering a Mother</h3><span>Read Story ↗</span></div>
-                </div>
-
-                <div class="photo-item huge" onclick="openDrawer('drawer-easter')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="easteraddis1.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item tall" onclick="openDrawer('drawer-easter')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="easteraddis.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-easter')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="easteraddis2.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-easter')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="easteraddis3.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item wide" onclick="openDrawer('drawer-easter')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="easteraddis4.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Easter Meal Sharing</h3><span>Read Story ↗</span></div>
-                </div>
-
-                <div class="photo-item huge" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare1.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item tall" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare2.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare3.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item wide" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare4.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare5.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item tall" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare6.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item wide" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare7.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare8.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item huge" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare9.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item tall" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare10.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-                <div class="photo-item wide" onclick="openDrawer('drawer-mealshare')">
-                    <div class="photo-fallback"><i class="fa-regular fa-image fa-2x"></i></div>
-                    <img src="mealshare11.jpg" onerror="this.style.opacity='0'">
-                    <div class="photo-overlay"><h3>Meskerem 1 Meal Share</h3><span>Read Story ↗</span></div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <section id="team" class="members-section">
-        <div class="container">
-            <span class="section-header reveal">The People Behind The Bridge</span>
-            <h2 class="section-title reveal">Our Dedicated Team</h2>
-            <p class="section-subtitle reveal">Meet the youth leaders and active members who make our mission possible every single day.</p>
+    <section id="gallery" class="gallery-section">
+        <div class="container fade-up">
+            <h2 class="section-header">The Archives</h2>
             
-            <h3 class="branch-title reveal">Addis Ababa Branch</h3>
-            <div class="member-grid reveal">
+            <div class="premium-grid">
                 
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-bridge"></i></div>
-                    <div class="member-info">
-                        <h4>Ephraim Teketel</h4>
-                        <p>Founder & Executive Director</p>
+                <div class="grid-item" onclick="openDrawer('drawer-mother')">
+                    <div class="grid-image">
+                        <img src="Motherbusinness1.jpg" onerror="this.style.opacity='0'" alt="Shinshicho Mother">
                     </div>
-                </div>
-                
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-compass"></i></div>
-                    <div class="member-info">
-                        <h4>Saron Mulugeta</h4>
-                        <p>General Deputy Director</p>
+                    <div class="grid-info">
+                        <div class="grid-title">Empowering a Mother</div>
+                        <div class="grid-meta">Shinshicho Branch</div>
                     </div>
                 </div>
 
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                    <div class="member-info">
-                        <h4>Soliyana Wanegnaw</h4>
-                        <p>Addis Ababa President</p>
+                <div class="grid-item" onclick="openDrawer('drawer-easter')">
+                    <div class="grid-image">
+                        <img src="easteraddis1.jpg" onerror="this.style.opacity='0'" alt="Easter Addis">
+                    </div>
+                    <div class="grid-info">
+                        <div class="grid-title">Easter Meal Sharing</div>
+                        <div class="grid-meta">Addis Ababa Branch</div>
                     </div>
                 </div>
 
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-handshake"></i></div>
-                    <div class="member-info">
-                        <h4>Yeabsira Abebaw</h4>
-                        <p>Vice President (Addis Ababa)</p>
+                <div class="grid-item" onclick="openDrawer('drawer-mealshare')">
+                    <div class="grid-image">
+                        <img src="mealshare1.jpg" onerror="this.style.opacity='0'" alt="Meskerem Meal Share">
                     </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-users"></i></div>
-                    <div class="member-info">
-                        <h4>Abigail Adinew</h4>
-                        <p>Volunteers Lead</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-bullseye"></i></div>
-                    <div class="member-info">
-                        <h4>Maedot Desta</h4>
-                        <p>Project Lead</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <div class="member-info">
-                        <h4>Soliyana Taye</h4>
-                        <p>Project Lead</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info"><h4>Eldana Zekariyas</h4><p>Active Member</p></div>
-                </div>
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info"><h4>Kewser Mohammed</h4><p>Active Member</p></div>
-                </div>
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info"><h4>Yanet Taddele</h4><p>Active Member</p></div>
-                </div>
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info"><h4>Hulud Nesru</h4><p>Active Member</p></div>
-                </div>
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info"><h4>Mikyas Yosef</h4><p>Active Member</p></div>
-                </div>
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info"><h4>Liya Girmachew</h4><p>Active Member</p></div>
-                </div>
-            </div>
-
-            <h3 class="branch-title reveal" style="margin-top: 80px;">Shinshicho Branch</h3>
-            <div class="member-grid reveal">
-                
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div class="member-info">
-                        <h4>Endalkachew Tefera</h4>
-                        <p>Branch President</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-flag"></i></div>
-                    <div class="member-info">
-                        <h4>Abel Samuel</h4>
-                        <p>Branch Vice President</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <div class="member-info">
-                        <h4>Kalkidan Tadewos</h4>
-                        <p>Financial Lead</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <div class="member-info">
-                        <h4>Lidya Alemayehu</h4>
-                        <p>Project Lead</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-solid fa-bullseye"></i></div>
-                    <div class="member-info">
-                        <h4>Yosef Desta</h4>
-                        <p>Project Lead</p>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-icon"><i class="fa-regular fa-user"></i></div>
-                    <div class="member-info">
-                        <h4>Tebarek Tadele</h4>
-                        <p>Member</p>
+                    <div class="grid-info">
+                        <div class="grid-title">Meskerem 1 Outreach</div>
+                        <div class="grid-meta">Community Initiative</div>
                     </div>
                 </div>
 
@@ -613,22 +272,33 @@
         </div>
     </section>
 
-    <section id="support" class="support-section">
+    <section id="team" class="team-section fade-up">
         <div class="container">
-            <span class="section-header reveal">Take Action</span>
-            <h2 class="section-title reveal">Join Our Family</h2>
-            <p class="section-subtitle reveal">We coordinate all contributions, volunteer opportunities, and partnerships directly. Reach out to us below.</p>
-            
-            <div class="support-grid reveal">
-                <div class="support-card">
-                    <h3>Volunteer</h3>
-                    <p>Ready to serve your community? Reach out to join our active teams in Addis Ababa or Shinshicho.</p>
-                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Message Support Team</a>
+            <div class="team-wrapper">
+                <div>
+                    <h2 class="section-header" style="font-size: 3rem; margin-bottom: 20px;">The<br>People.</h2>
+                    <p style="color: var(--text-muted); max-width: 300px; font-weight: 300;">The dedicated youth driving the mission across Ethiopia.</p>
                 </div>
-                <div class="support-card">
-                    <h3>Support a Family</h3>
-                    <p>Contribute to our ongoing food programs, outreach funds, or business start-ups for vulnerable mothers.</p>
-                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Coordinate Contribution</a>
+                
+                <div>
+                    <div class="team-list-header">Addis Ababa Leadership</div>
+                    <ul class="team-list">
+                        <li class="team-row"><span class="team-name">Ephraim Teketel</span> <span class="team-role">Executive Director</span></li>
+                        <li class="team-row"><span class="team-name">Saron Mulugeta</span> <span class="team-role">Deputy Director</span></li>
+                        <li class="team-row"><span class="team-name">Soliyana Wanegnaw</span> <span class="team-role">Branch President</span></li>
+                        <li class="team-row"><span class="team-name">Yeabsira Abebaw</span> <span class="team-role">Vice President</span></li>
+                        <li class="team-row"><span class="team-name">Abigail Adinew</span> <span class="team-role">Volunteers Lead</span></li>
+                        <li class="team-row"><span class="team-name">Maedot Desta</span> <span class="team-role">Project Lead</span></li>
+                        <li class="team-row"><span class="team-name">Soliyana Taye</span> <span class="team-role">Project Lead</span></li>
+                    </ul>
+
+                    <div class="team-list-header">Shinshicho Leadership</div>
+                    <ul class="team-list">
+                        <li class="team-row"><span class="team-name">Endalkachew Tefera</span> <span class="team-role">Branch President</span></li>
+                        <li class="team-row"><span class="team-name">Abel Samuel</span> <span class="team-role">Vice President</span></li>
+                        <li class="team-row"><span class="team-name">Kalkidan Tadewos</span> <span class="team-role">Financial Lead</span></li>
+                        <li class="team-row"><span class="team-role">Lidya Alemayehu & Yosef Desta</span> <span class="team-role">Project Leads</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -636,127 +306,80 @@
 
     <footer>
         <div class="container">
+            <div class="footer-huge">Join the mission.</div>
+            <div class="divider" style="margin-bottom: 60px;"></div>
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>YegnaBridge</h4>
-                    <p>Not charity. Family. Building bridges across pain, silence, and challenges in Ethiopia.</p>
+                    <h4>Direct Contact</h4>
+                    <a href="https://t.me/yegnabridgesupport" target="_blank">Telegram Support ↗</a>
+                    <a href="mailto:yegnabridge.org@gmail.com">yegnabridge.org@gmail.com ↗</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Official Channels</h4>
-                    <ul class="social-links-list">
-                        <li><a href="https://t.me/YegnaBridge" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram (@YegnaBridge)</a></li>
-                        <li><a href="https://instagram.com/yegna_bridge" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram (@yegna_bridge)</a></li>
-                        <li><a href="https://www.linkedin.com/company/yegnabridge/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn (YegnaBridge)</a></li>
-                        <li><a href="https://youtube.com/@yegnabridge" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube (yegnabridge)</a></li>
-                    </ul>
+                    <h4>Social Media</h4>
+                    <a href="https://t.me/YegnaBridge" target="_blank">Telegram</a>
+                    <a href="https://instagram.com/yegna_bridge" target="_blank">Instagram</a>
+                    <a href="https://www.linkedin.com/company/yegnabridge/" target="_blank">LinkedIn</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Direct Support</h4>
-                    <p>Support Inquiries: <strong>@yegnabridgesupport</strong></p>
-                    <p>Email: <strong>yegnabridge.org@gmail.com</strong></p>
+                    <h4>Organization</h4>
+                    <p style="color: var(--text-muted); font-weight: 300; font-size: 0.9rem;">
+                        © 2026 YegnaBridge.<br>Operating in Addis Ababa & Shinshicho, Ethiopia.
+                    </p>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 YegnaBridge. All rights reserved.</p>
             </div>
         </div>
     </footer>
-</div> <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
 
-<div class="drawer" id="drawer-mother">
-    <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-    <span class="section-header">Shinshicho Branch</span>
-    <h2>Empowering a Mother</h2>
-    <p>We met a mother who was struggling to provide for her daughter after her husband was killed over a land dispute. She didn't want permanent charity; she wanted to work.</p>
-    <p>With the support of our donors, we raised approximately 10,000 ETB to purchase a heavy-duty plastic market shelter, potatoes, peas, salt, and coffee. We recently visited her again and found that she had successfully retailed her stock twice. She is now standing on her own feet—the ultimate goal of YegnaBridge.</p>
-</div>
+    <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
 
-<div class="drawer" id="drawer-easter">
-    <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-    <span class="section-header">Addis Ababa Branch</span>
-    <h2>Easter Meal Sharing</h2>
-    <p>We celebrated the launch of our Addis Ababa branch by organizing a meal sharing program during the Easter season. We reached out to families and individuals, sharing not just food and clothing, but culture, warmth, and belonging.</p>
-    <p>It was a day filled with Ethiopian traditions, showing that true support is holistic—it nourishes the body and the soul.</p>
-</div>
+    <div class="drawer" id="drawer-mother">
+        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
+        <div class="hero-tag" style="color: var(--accent);">Shinshicho Branch</div>
+        <h2>Empowering a Mother</h2>
+        <p>We met a mother who was struggling to provide for her daughter after her husband was killed over a land dispute. She did not want permanent charity; she wanted to work.</p>
+        <p>With the support of our donors, we raised approximately 10,000 ETB to purchase a heavy-duty plastic market shelter, potatoes, peas, salt, and coffee. She has now successfully retailed her stock twice and is standing on her own feet.</p>
+    </div>
 
-<div class="drawer" id="drawer-mealshare">
-    <button class="close-drawer" onclick="closeAllDrawers()">×</button>
-    <span class="section-header">Shinshicho Branch</span>
-    <h2>Meskerem 1 Meal Share</h2>
-    <p>At YegnaBridge, we believe that small acts of compassion can create ripples of change. On Meskerem 1, we organized a massive meal-sharing program with the community.</p>
-    <p>With the support of our team, we reached out to over 10 individuals and families. A shared meal means warmth, dignity, and a reminder that no one is alone. We aren't just distributing food; we are building bridges of care, one meal and one smile at a time.</p>
-</div>
+    <div class="drawer" id="drawer-easter">
+        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
+        <div class="hero-tag" style="color: var(--accent);">Addis Ababa Branch</div>
+        <h2>Easter Meal Sharing</h2>
+        <p>We celebrated the launch of our Addis Ababa branch by organizing a meal sharing program during the Easter season. We reached out to families and individuals, sharing not just food and clothing, but culture, warmth, and belonging.</p>
+        <p>It was a day filled with Ethiopian traditions, proving that true support nourishes both the body and the soul.</p>
+    </div>
+
+    <div class="drawer" id="drawer-mealshare">
+        <button class="close-drawer" onclick="closeAllDrawers()">×</button>
+        <div class="hero-tag" style="color: var(--accent);">Community Initiative</div>
+        <h2>Meskerem 1 Meal Share</h2>
+        <p>On Meskerem 1, we organized a massive meal-sharing program, reaching out to over 10 individuals and families.</p>
+        <p>A shared meal means dignity. It is a reminder that no one is walking through their struggles alone. We aren't just distributing food; we are building bridges of care, one smile at a time.</p>
+    </div>
 
     <script>
-        // Mobile Menu Toggle
-        function toggleMenu() {
-            document.getElementById('nav-links').classList.toggle('active');
-        }
-
-        // Scroll Reveal Animations
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
+        // Smooth Reveal Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        reveal(); 
+            });
+        }, { threshold: 0.1 });
 
-        // Drawer Logic & iOS Shrink
+        document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
+
+        // Drawer Logic
         const overlay = document.getElementById('drawer-overlay');
-        const mainWrapper = document.getElementById('main-wrapper');
-        
         function openDrawer(id) {
             overlay.classList.add('active');
             document.getElementById(id).classList.add('active');
-            mainWrapper.classList.add('ios-shrink'); 
-            document.body.style.backgroundColor = '#0B192C'; // Navy background for contrast
             document.body.style.overflow = 'hidden'; 
         }
-        
         function closeAllDrawers() {
             overlay.classList.remove('active');
             document.querySelectorAll('.drawer').forEach(d => d.classList.remove('active'));
-            mainWrapper.classList.remove('ios-shrink'); 
-            document.body.style.backgroundColor = 'var(--primary)'; 
             document.body.style.overflow = 'auto';
         }
-
-        // Impact Counters Animation
-        const counters = document.querySelectorAll('.stat-number');
-        let animated = false;
-        
-        window.addEventListener('scroll', () => {
-            const impactSection = document.getElementById('impact');
-            if(!impactSection) return;
-            const sectionPos = impactSection.getBoundingClientRect().top;
-            const screenPos = window.innerHeight;
-
-            if(sectionPos < screenPos && !animated) {
-                animated = true;
-                counters.forEach(counter => {
-                    const target = +counter.getAttribute('data-target');
-                    const speed = 40; 
-                    const updateCount = () => {
-                        const count = +counter.innerText.replace('+', '');
-                        const inc = target / speed;
-                        if (count < target) {
-                            counter.innerText = Math.ceil(count + inc);
-                            setTimeout(updateCount, 30);
-                        } else {
-                            counter.innerText = target + (target >= 10 ? '+' : '');
-                        }
-                    };
-                    updateCount();
-                });
-            }
-        });
     </script>
 </body>
 </html>
