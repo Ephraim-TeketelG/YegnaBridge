@@ -1,1 +1,381 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YegnaBridge | Not Charity. Family.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #ffffff;
+            --navy: #0B192C;
+            --navy-light: #1E3E62;
+            --accent: #3B82F6;
+            --text-dark: #0f172a;
+            --text-gray: #64748b;
+            --bg-alt: #f1f5f9;
+            --border: #cbd5e1;
+            --font-head: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-body); color: var(--text-dark);
+            line-height: 1.7; background-color: var(--primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); padding: 18px 0;
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 40px; width: auto; object-fit: contain; }
+        .logo-text { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; color: var(--navy); }
+        .logo-text span { color: var(--accent); }
+        
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); }
+        .nav-links a:hover { color: var(--accent); }
+        .btn-nav-join {
+            background: var(--navy); color: white !important;
+            padding: 10px 22px; border-radius: 50px; font-weight: 600;
+        }
+        .btn-nav-join:hover { background: var(--navy-light); transform: translateY(-2px); }
+
+        /* Hero Section */
+        .hero { 
+            padding: 180px 0 100px; text-align: center; 
+            background: linear-gradient(180deg, #f8fafc 0%, var(--primary) 100%);
+        }
+        .badge {
+            display: inline-block; background: white; border: 1px solid var(--border);
+            padding: 8px 18px; border-radius: 50px; font-size: 0.85rem;
+            font-weight: 600; color: var(--navy); margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .hero h1 {
+            font-family: var(--font-head); font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 700; line-height: 1.1; letter-spacing: -1.5px;
+            margin-bottom: 20px; max-width: 900px; margin-inline: auto;
+            color: var(--navy);
+        }
+        .hero p {
+            font-size: 1.25rem; color: var(--text-gray); max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        
+        .btn-primary, .btn-secondary {
+            padding: 16px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem;
+            display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+            transition: all 0.3s ease; border: none;
+        }
+        .btn-primary { background: var(--navy); color: white; }
+        .btn-primary:hover { background: var(--navy-light); transform: translateY(-3px); }
+        .btn-secondary { background: white; color: var(--navy); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--navy); }
+
+        /* Impact Dashboard */
+        .impact-section { padding: 80px 0; background: var(--navy); color: white; }
+        .impact-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px; text-align: center;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05); padding: 40px 20px; border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .stat-number {
+            font-family: var(--font-head); font-size: 3.5rem; font-weight: 700;
+            color: #60a5fa; line-height: 1; margin-bottom: 10px;
+        }
+        .stat-label { font-weight: 600; color: white; font-size: 1.1rem; }
+        .stat-desc { font-size: 0.9rem; color: #94a3b8; margin-top: 5px; }
+
+        /* Story Section */
+        .story-section { padding: 120px 0; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        
+        .section-header { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-gray); margin-bottom: 15px; font-weight: 600; display: block; }
+        .section-title { font-family: var(--font-head); font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; letter-spacing: -1px; color: var(--navy); }
+        .story-text p { font-size: 1.15rem; color: var(--text-gray); margin-bottom: 20px; }
+        .highlight-box {
+            background: #f8fafc; border-left: 4px solid var(--navy);
+            padding: 20px 30px; border-radius: 0 12px 12px 0; margin-top: 30px;
+            border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .highlight-box p { color: var(--navy); font-weight: 600; font-size: 1.2nsrem; margin: 0; font-family: var(--font-head); }
+        
+        .image-placeholder {
+            width: 100%; height: 450px; background: var(--bg-alt); border-radius: 24px;
+            border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center;
+            justify-content: center; color: var(--text-gray); font-size: 1.1rem; text-align: center; padding: 20px;
+        }
+
+        /* Gallery Section */
+        .gallery-section { padding: 100px 0; background: var(--bg-alt); }
+        .gallery-header { text-align: center; max-width: 600px; margin: 0 auto 60px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .gallery-card {
+            background: white; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.3s ease;
+        }
+        .gallery-card:hover { transform: translateY(-5px); }
+        .gallery-img-box { height: 240px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: var(--text-gray); font-size: 0.95rem; }
+        .gallery-content { padding: 30px; }
+        .gallery-date { font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .gallery-content h3 { font-family: var(--font-head); font-size: 1.4rem; color: var(--navy); margin-bottom: 12px; }
+        .gallery-content p { color: var(--text-gray); font-size: 1rem; }
+
+        /* Subscription & Support Cards Section */
+        .support-section { padding: 120px 0; }
+        .support-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
+        .support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .support-card {
+            background: white; border: 1px solid var(--border); border-radius: 20px; padding: 40px;
+            display: flex; flex-direction: column; justify-content: space-between; position: relative;
+            transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .support-card.featured { border-color: var(--navy); box-shadow: 0 20px 40px rgba(11, 25, 44, 0.08); }
+        .support-card:hover { transform: translateY(-8px); border-color: var(--navy); }
+        .support-card h3 { font-family: var(--font-head); font-size: 1.5rem; color: var(--navy); margin-bottom: 15px; }
+        .support-card p { color: var(--text-gray); font-size: 1.05rem; margin-bottom: 30px; }
+        .btn-card {
+            background: var(--bg-alt); color: var(--navy); padding: 14px; border-radius: 50px;
+            font-weight: 600; text-align: center; display: block; border: 1px solid var(--border);
+        }
+        .support-card.featured .btn-card { background: var(--navy); color: white; border-color: var(--navy); }
+        .btn-card:hover { background: var(--navy); color: white; }
+
+        /* Footer & Contact Hub */
+        footer { background: var(--navy); color: white; padding: 100px 0 60px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
+        .footer-col h4 { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 20px; color: white; }
+        .footer-col p { color: #94a3b8; font-size: 1rem; margin-bottom: 15px; }
+        .social-links-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .social-links-list a { color: #94a3b8; display: inline-flex; align-items: center; gap: 10px; font-weight: 500; }
+        .social-links-list a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px; text-align: center; color: #94a3b8; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo-area">
+                <img src="logo.png" alt="YegnaBridge Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">Yegna<span>Bridge</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="#about">Story</a>
+                <a href="#impact">Impact</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#support" class="btn-nav-join">Join the Family</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="badge">Not Charity. Family.</div>
+            <h1>Let us change lives together.</h1>
+            <p>Founded in 2025, YegnaBridge connects dedicated youth with families and street children in Shinshicho and Addis Ababa, fostering genuine care, dignity, and listening.</p>
+            <div class="hero-btns">
+                <a href="#support" class="btn-primary">Connect with Support <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#about" class="btn-secondary">Read Our Philosophy</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="impact" class="impact-section">
+        <div class="container impact-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="2">0</div>
+                <div class="stat-label">Active Branches</div>
+                <div class="stat-desc">Shinshicho & Addis Ababa</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">Team Members</div>
+                <div class="stat-desc">Dedicated youth across branches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Families Supported</div>
+                <div class="stat-desc">Provided with sustainable aid</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">Street Children</div>
+                <div class="stat-desc">Directly assisted with care</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="story-section">
+        <div class="container grid-2">
+            <div class="image-placeholder">
+                <i class="fa-regular fa-image" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--navy);"></i>
+                <p>YegnaBridge Shinshicho & Addis Ababa Community Outreach</p>
+            </div>
+            <div class="story-text">
+                <span class="section-header">Our Core Philosophy</span>
+                <h2 class="section-title">Leadership begins with listening.</h2>
+                <p>The word Yegna means ours in Amharic, and Bridge signifies crossing challenges together. We believe the biggest gap in supporting vulnerable families is not just physical supplies, but the lack of someone willing to sit down and listen to real stories.</p>
+                <p>When we assist a mother or a child, our goal is never to hand out temporary items for praise. Our aim is to build family, restore dignity, and walk side by side through life.</p>
+                
+                <div class="highlight-box">
+                    <p>Not charity. Family.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="gallery-header">
+                <span class="section-header">Moments of Connection</span>
+                <h2 class="section-title">Outreach Gallery</h2>
+                <p>A glimpse into our community programs, sharing meals, building market shelters, and listening to stories across our branches.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <div class="gallery-img-box">Shinshicho Branch Archive</div>
+                    <div class="gallery-content">
+                        <span class="gallery-date">Shinshicho Initiative</span>
+                        <h3>Sustainable Marketplace Business</h3>
+                        <p>Supporting a mother by setting up her market shelter and inventory so she can independently sustain her family.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="gallery-img-box">Addis Ababa Branch Archive</div>
+                    <div class="gallery-content">
+                        <span class="gallery-date">Addis Ababa Branch</span>
+                        <h3>Easter Meal Sharing Program</h3>
+                        <p>Launching our Addis Ababa branch with food provisions, clothing support, and shared cultural moments.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="gallery-img-box">Community Connection Archive</div>
+                    <div class="gallery-content">
+                        <span class="gallery-date">Central Team</span>
+                        <h3>Youth Meetings and Guidance</h3>
+                        <p>Regular team strategy sessions focused on organizing upcoming branch programs and deepening our mission.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="support" class="support-section">
+        <div class="container">
+            <div class="support-header">
+                <span class="section-header">Get Involved</span>
+                <h2 class="section-title">Choose How to Support Our Family</h2>
+                <p>Select an option below to connect directly with our support team on Telegram. We coordinate all contributions and questions personally.</p>
+            </div>
+            <div class="support-grid">
+                <div class="support-card">
+                    <div>
+                        <h3>Volunteer Locally</h3>
+                        <p>Join our active teams in Shinshicho or Addis Ababa to help organize outreach programs, mentor youth, and spend time with families.</p>
+                    </div>
+                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Message Support Team</a>
+                </div>
+                <div class="support-card featured">
+                    <div>
+                        <h3>Support a Family</h3>
+                        <p>Contribute to our ongoing community funds, food programs, or sustainable business start-ups for vulnerable mothers.</p>
+                    </div>
+                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Coordinate Contribution</a>
+                </div>
+                <div class="support-card">
+                    <div>
+                        <h3>Partner or Inquire</h3>
+                        <p>Are you an organization, media group, or individual wanting to collaborate? Reach out to our central administration.</p>
+                    </div>
+                    <a href="https://t.me/yegnabridgesupport" target="_blank" class="btn-card">Contact Administration</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>YegnaBridge</h4>
+                    <p>Not charity. Family. Building bridges across pain, silence, and challenges in Ethiopia.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Official Channels</h4>
+                    <ul class="social-links-list">
+                        <li><a href="https://t.me/YegnaBridge" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Channel (@YegnaBridge)</a></li>
+                        <li><a href="https://instagram.com/yegna_bridge" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram (@yegna_bridge)</a></li>
+                        <li><a href="https://www.linkedin.com/company/yegnabridge/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn (YegnaBridge)</a></li>
+                        <li><a href="https://youtube.com/@yegnabridge" target="_blank"><i class="fa-brands fa-youtube"></i> YouTube (yegnabridge)</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Direct Support</h4>
+                    <p>Support & Inquiries: <strong>@yegnabridgesupport</strong></p>
+                    <p>Email: <strong>yegnabridge.org@gmail.com</strong></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 YegnaBridge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 40; 
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(animateCounters, 30);
+                } else {
+                    counter.innerText = target + (target >= 10 ? '+' : '');
+                }
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.impact-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
